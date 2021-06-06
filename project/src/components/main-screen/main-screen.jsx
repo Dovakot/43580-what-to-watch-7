@@ -5,17 +5,27 @@ import Logo from '../logo/logo';
 import GenreList from '../genre-list/genre-list';
 import SmallFilmCard from '../small-film-card/small-film-card';
 
-function MainScreen({promoFilm, films}) {
-  const {title, genre, year, poster, fullPoster} = promoFilm;
-  const posterAlt = `${title} poster`;
+const setPosterAlt = (name) => `${name} poster`;
 
+const getSmallFilmCard = ({id, name, posterImage}) => (
+  <SmallFilmCard
+    key={id}
+    name={name}
+    posterImage={posterImage}
+  />
+);
+
+function MainScreen({
+  promoFilm: {name, posterImage, backgroundImage, genre, released},
+  films,
+}) {
   return (
     <Fragment>
       <section className="film-card">
         <div className="film-card__bg">
           <img
-            src={fullPoster}
-            alt={title}
+            src={backgroundImage}
+            alt={name}
           />
         </div>
 
@@ -45,18 +55,18 @@ function MainScreen({promoFilm, films}) {
           <div className="film-card__info">
             <div className="film-card__poster">
               <img
-                src={poster}
-                alt={posterAlt}
+                src={posterImage}
+                alt={setPosterAlt(name)}
                 width={218}
                 height={327}
               />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{title}</h2>
+              <h2 className="film-card__title">{name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{year}</span>
+                <span className="film-card__year">{released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -85,12 +95,7 @@ function MainScreen({promoFilm, films}) {
           <GenreList />
 
           <div className="catalog__films-list">
-            {films.map((film) => (
-              <SmallFilmCard
-                key={film.id}
-                film={film}
-              />
-            ))}
+            {films.map(getSmallFilmCard)}
           </div>
 
           <div className="catalog__more">
@@ -114,13 +119,17 @@ function MainScreen({promoFilm, films}) {
 
 MainScreen.propTypes = {
   promoFilm: PropTypes.shape({
-    title: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
-    poster: PropTypes.string.isRequired,
-    fullPoster: PropTypes.string.isRequired,
+    released: PropTypes.number.isRequired,
+    posterImage: PropTypes.string.isRequired,
+    backgroundImage: PropTypes.string.isRequired,
   }).isRequired,
-  films: PropTypes.arrayOf(PropTypes.object).isRequired,
+  films: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    posterImage: PropTypes.string.isRequired,
+  })).isRequired,
 };
 
 export default MainScreen;
