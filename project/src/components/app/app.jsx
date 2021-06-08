@@ -1,7 +1,24 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-function App() {
-  return <p>Hello, world!</p>;
+import {
+  FILM_PROP
+} from '../../const';
+
+import MainScreen from '../main-screen/main-screen';
+
+function App({promoFilm, films}) {
+  return (
+    <MainScreen
+      promoFilm={promoFilm}
+      films={films}
+    />
+  );
 }
+
+App.propTypes = {
+  promoFilm: FILM_PROP.isRequired,
+  films: PropTypes.arrayOf(FILM_PROP).isRequired,
+};
 
 export default App;
