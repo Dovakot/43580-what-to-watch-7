@@ -1,8 +1,12 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
+import {
+  FILM_PROP
+} from '../../const';
+
 import Logo from '../logo/logo';
-import GenreList from '../genre-list/genre-list';
+import Genres from '../genres/genres';
 import SmallFilmCard from '../small-film-card/small-film-card';
 
 const setPosterAlt = (name) => `${name} poster`;
@@ -20,7 +24,7 @@ function MainScreen({
   films,
 }) {
   return (
-    <Fragment>
+    <>
       <section className="film-card">
         <div className="film-card__bg">
           <img
@@ -92,7 +96,7 @@ function MainScreen({
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenreList />
+          <Genres />
 
           <div className="catalog__films-list">
             {films.map(getSmallFilmCard)}
@@ -113,23 +117,13 @@ function MainScreen({
           </div>
         </footer>
       </div>
-    </Fragment>
+    </>
   );
 }
 
 MainScreen.propTypes = {
-  promoFilm: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    released: PropTypes.number.isRequired,
-    posterImage: PropTypes.string.isRequired,
-    backgroundImage: PropTypes.string.isRequired,
-  }).isRequired,
-  films: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    posterImage: PropTypes.string.isRequired,
-  })).isRequired,
+  promoFilm: FILM_PROP.isRequired,
+  films: PropTypes.arrayOf(FILM_PROP).isRequired,
 };
 
 export default MainScreen;
