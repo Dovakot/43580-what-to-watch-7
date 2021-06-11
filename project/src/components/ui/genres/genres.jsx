@@ -1,5 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
+import Genre from './ganre/ganre';
 
 const GENRES = [
   'All genres',
@@ -21,16 +22,6 @@ const getGenre = (genre) => (
   />
 );
 
-function Genre({genre}) {
-  return (
-    <li className="catalog__genres-item">
-      <a href="/" className="catalog__genres-link">
-        {genre}
-      </a>
-    </li>
-  );
-}
-
 function Genres() {
   return (
     <ul className="catalog__genres-list">
@@ -38,9 +29,5 @@ function Genres() {
     </ul>
   );
 }
-
-Genre.propTypes = {
-  genre: PropTypes.string.isRequired,
-};
 
 export default Genres;

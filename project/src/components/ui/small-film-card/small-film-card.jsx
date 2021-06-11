@@ -1,21 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  Link
+} from 'react-router-dom';
 
-function SmallFilmCard({name, posterImage}) {
+function SmallFilmCard({name, poster}) {
   return (
     <article className="small-film-card catalog__films-card">
       <div className="small-film-card__image">
         <img
-          src={posterImage}
+          src={poster}
           alt={name}
           width={280}
           height={175}
         />
       </div>
       <h3 className="small-film-card__title">
-        <a className="small-film-card__link" href="film-page.html">
+        <Link className="small-film-card__link" to="/">
           {name}
-        </a>
+        </Link>
       </h3>
     </article>
   );
@@ -23,7 +26,7 @@ function SmallFilmCard({name, posterImage}) {
 
 SmallFilmCard.propTypes = {
   name: PropTypes.string.isRequired,
-  posterImage: PropTypes.string.isRequired,
+  poster: PropTypes.string.isRequired,
 };
 
 export default SmallFilmCard;
