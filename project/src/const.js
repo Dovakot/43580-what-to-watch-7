@@ -20,6 +20,22 @@ const FILM_PROP = PropTypes.shape({
   isFavorite: PropTypes.bool,
 });
 
+const AppRoute = {
+  ROOT: '/',
+  LOGIN: '/login',
+  FILM: '/films/:id',
+  REVIEW: '/films/:id/review',
+  MY_LIST: '/mylist',
+  PLAYER: '/player',
+};
+
+const PosterModifier = {
+  BIG: 'big',
+  SMALL: 'small',
+};
+
 export {
-  FILM_PROP
+  FILM_PROP,
+  AppRoute,
+  PosterModifier
 };
