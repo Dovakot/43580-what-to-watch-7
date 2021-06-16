@@ -1,25 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Link
-} from 'react-router-dom';
 
 import {
   PosterModifier
 } from '../../../const';
 
 import RatingStar from '../../ui/rating-star/rating-star';
-import Logo from '../../ui/logo/logo';
-import UserBlock from '../../ui/user-block/user-block';
-import BackgroundImage from '../../ui/film-card/background-image/background-image';
+import Preview from '../../ui/film-card/preview/preview';
 import Poster from '../../ui/film-card/poster/poster';
 
 const MAX_STAR_COUNT = 10;
 
-const getRatingStar = (value, key) => (
+const getStarsValue = (count) => Array.from({length: count}, (v, i) => count - i);
+
+const getRatingStar = (value) => (
   <RatingStar
-    key={value - key}
-    count={value - key}
+    key={value}
+    count={value}
   />
 );
 
@@ -27,31 +24,11 @@ function AddReview({name, poster, backgroundImage}) {
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
-        <BackgroundImage
+        <Preview
           image={backgroundImage}
           name={name}
+          isReview
         />
-
-        <h1 className="visually-hidden">WTW</h1>
-
-        <header className="page-header">
-          <Logo />
-
-          <nav className="breadcrumbs">
-            <ul className="breadcrumbs__list">
-              <li className="breadcrumbs__item">
-                <Link className="breadcrumbs__link" to="/">
-                  {name}
-                </Link>
-              </li>
-              <li className="breadcrumbs__item">
-                <span className="breadcrumbs__link">Add review</span>
-              </li>
-            </ul>
-          </nav>
-
-          <UserBlock />
-        </header>
 
         <Poster
           modifier={PosterModifier.SMALL}
@@ -64,7 +41,7 @@ function AddReview({name, poster, backgroundImage}) {
         <form action="#" className="add-review__form">
           <div className="rating">
             <div className="rating__stars">
-              {new Array(MAX_STAR_COUNT).fill(MAX_STAR_COUNT).map(getRatingStar)}
+              {getStarsValue(MAX_STAR_COUNT).map(getRatingStar)}
             </div>
           </div>
 

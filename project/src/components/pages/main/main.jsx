@@ -5,22 +5,12 @@ import {
   FILM_PROP
 } from '../../../const';
 
-import Logo from '../../ui/logo/logo';
 import Genres from '../../ui/genres/genres';
-import SmallFilmCard from '../../ui/small-film-card/small-film-card';
 import PageFooter from '../../ui/page-footer/page-footer';
-import UserBlock from '../../ui/user-block/user-block';
-import BackgroundImage from '../../ui/film-card/background-image/background-image';
+import FilmList from '../../ui/film-list/film-list';
+import Preview from '../../ui/film-card/preview/preview';
 import Description from '../../ui/film-card/description/description';
 import Poster from '../../ui/film-card/poster/poster';
-
-const getSmallFilmCard = ({id, name, posterImage}) => (
-  <SmallFilmCard
-    key={id}
-    name={name}
-    poster={posterImage}
-  />
-);
 
 function Main({
   promoFilm: {name, posterImage, backgroundImage, genre, released},
@@ -29,17 +19,10 @@ function Main({
   return (
     <>
       <section className="film-card">
-        <BackgroundImage
+        <Preview
           image={backgroundImage}
           name={name}
         />
-
-        <h1 className="visually-hidden">WTW</h1>
-
-        <header className="page-header film-card__head">
-          <Logo />
-          <UserBlock />
-        </header>
 
         <div className="film-card__wrap">
           <div className="film-card__info">
@@ -63,9 +46,9 @@ function Main({
 
           <Genres />
 
-          <div className="catalog__films-list">
-            {films.map(getSmallFilmCard)}
-          </div>
+          <FilmList
+            films={films}
+          />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">

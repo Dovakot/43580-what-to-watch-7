@@ -9,23 +9,13 @@ import {
   PosterModifier
 } from '../../../const';
 
-import Logo from '../../ui/logo/logo';
-import SmallFilmCard from '../../ui/small-film-card/small-film-card';
 import PageFooter from '../../ui/page-footer/page-footer';
-import UserBlock from '../../ui/user-block/user-block';
-import BackgroundImage from '../../ui/film-card/background-image/background-image';
+import FilmList from '../../ui/film-list/film-list';
+import Preview from '../../ui/film-card/preview/preview';
 import Description from '../../ui/film-card/description/description';
 import Poster from '../../ui/film-card/poster/poster';
 
 const MAX_FILM_CARD = 4;
-
-const getSmallFilmCard = ({id, name, posterImage}) => (
-  <SmallFilmCard
-    key={id}
-    name={name}
-    poster={posterImage}
-  />
-);
 
 function Film({
   film: {name, posterImage, backgroundImage, genre, released},
@@ -35,17 +25,10 @@ function Film({
     <>
       <section className="film-card film-card--full">
         <div className="film-card__hero">
-          <BackgroundImage
+          <Preview
             image={backgroundImage}
             name={name}
           />
-
-          <h1 className="visually-hidden">WTW</h1>
-
-          <header className="page-header film-card__head">
-            <Logo />
-            <UserBlock />
-          </header>
 
           <div className="film-card__wrap">
             <Description
@@ -130,9 +113,9 @@ function Film({
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <div className="catalog__films-list">
-            {similarFilms.slice(0, MAX_FILM_CARD).map(getSmallFilmCard)}
-          </div>
+          <FilmList
+            films={similarFilms.slice(0, MAX_FILM_CARD)}
+          />
         </section>
 
         <PageFooter />

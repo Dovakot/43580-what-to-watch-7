@@ -6,20 +6,12 @@ import {
 } from '../../../const';
 
 import Logo from '../../ui/logo/logo';
-import SmallFilmCard from '../../ui/small-film-card/small-film-card';
+import FilmList from '../../ui/film-list/film-list';
 import PageFooter from '../../ui/page-footer/page-footer';
 import UserBlock from '../../ui/user-block/user-block';
 import PageTitle from '../../ui/page-title/page-title';
 
 const filterByFavorites = (films) => films.filter((film) => film.isFavorite);
-
-const getSmallFilmCard = ({id, name, posterImage}) => (
-  <SmallFilmCard
-    key={id}
-    name={name}
-    poster={posterImage}
-  />
-);
 
 function MyList({films}) {
   return (
@@ -35,9 +27,9 @@ function MyList({films}) {
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-        <div className="catalog__films-list">
-          {filterByFavorites(films).map(getSmallFilmCard)}
-        </div>
+        <FilmList
+          films={filterByFavorites(films)}
+        />
       </section>
 
       <PageFooter />
