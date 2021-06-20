@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  FILM_PROP
-} from '../../../const';
+import filmProp from '../../../props/film-prop';
 
 import Logo from '../../ui/logo/logo';
 import FilmList from '../../ui/film-list/film-list';
@@ -38,7 +36,7 @@ function MyList({films}) {
 }
 
 MyList.propTypes = {
-  films: PropTypes.arrayOf(FILM_PROP).isRequired,
+  films: PropTypes.arrayOf(filmProp).isRequired,
 };
 
 export default MyList;

@@ -5,9 +5,10 @@ import {
 } from 'react-router-dom';
 
 import {
-  FILM_PROP,
   PosterModifier
 } from '../../../const';
+
+import filmProp from '../../../props/film-prop';
 
 import PageFooter from '../../ui/page-footer/page-footer';
 import FilmList from '../../ui/film-list/film-list';
@@ -125,8 +126,8 @@ function Film({
 }
 
 Film.propTypes = {
-  film: FILM_PROP.isRequired,
-  similarFilms: PropTypes.arrayOf(FILM_PROP).isRequired,
+  film: filmProp.isRequired,
+  similarFilms: PropTypes.arrayOf(filmProp).isRequired,
 };
 
 export default Film;

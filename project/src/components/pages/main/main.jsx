@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  FILM_PROP
-} from '../../../const';
+import filmProp from '../../../props/film-prop';
 
 import Genres from '../../ui/genres/genres';
 import PageFooter from '../../ui/page-footer/page-footer';
@@ -64,8 +62,8 @@ function Main({
 }
 
 Main.propTypes = {
-  promoFilm: FILM_PROP.isRequired,
-  films: PropTypes.arrayOf(FILM_PROP).isRequired,
+  promoFilm: filmProp.isRequired,
+  films: PropTypes.arrayOf(filmProp).isRequired,
 };
 
 export default Main;

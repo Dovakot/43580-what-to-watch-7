@@ -7,9 +7,10 @@ import {
 } from 'react-router-dom';
 
 import {
-  FILM_PROP,
   AppRoute
 } from '../../const';
+
+import filmProp from '../../props/film-prop';
 
 import Main from '../pages/main/main';
 import SignIn from '../pages/sign-in/sign-in';
@@ -68,8 +69,8 @@ function App({promoFilm, films}) {
 }
 
 App.propTypes = {
-  promoFilm: FILM_PROP.isRequired,
-  films: PropTypes.arrayOf(FILM_PROP).isRequired,
+  promoFilm: filmProp.isRequired,
+  films: PropTypes.arrayOf(filmProp).isRequired,
 };
 
 export default App;
