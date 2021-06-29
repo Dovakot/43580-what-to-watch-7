@@ -1,17 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  PosterModifier
-} from '../../../const';
+import {PosterModifier, FilmInfo} from '../../../const';
+import {getStarsValue} from '../../../utils/film-util';
 
 import RatingStar from '../../ui/rating-star/rating-star';
 import Preview from '../../ui/film-card/preview/preview';
 import Poster from '../../ui/film-card/poster/poster';
-
-const MAX_STAR_COUNT = 10;
-
-const getStarsValue = (count) => Array.from({length: count}, (v, i) => count - i);
 
 const getRatingStar = (value) => (
   <RatingStar
@@ -20,11 +15,12 @@ const getRatingStar = (value) => (
   />
 );
 
-function AddReview({name, poster, backgroundImage}) {
+function AddReview({id, name, poster, backgroundImage}) {
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <Preview
+          id={id}
           image={backgroundImage}
           name={name}
           isReview
@@ -41,7 +37,7 @@ function AddReview({name, poster, backgroundImage}) {
         <form action="#" className="add-review__form">
           <div className="rating">
             <div className="rating__stars">
-              {getStarsValue(MAX_STAR_COUNT).map(getRatingStar)}
+              {getStarsValue(FilmInfo.MAX_STAR_COUNT).map(getRatingStar)}
             </div>
           </div>
 
@@ -67,6 +63,7 @@ function AddReview({name, poster, backgroundImage}) {
 }
 
 AddReview.propTypes = {
+  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   poster: PropTypes.string.isRequired,
   backgroundImage: PropTypes.string.isRequired,

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const setStarCount = (count) => `star-${count}`;
+import {setStarCount} from '../../../utils/film-util';
 
 function RatingStar({count}) {
   return (
