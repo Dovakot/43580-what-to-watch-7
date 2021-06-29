@@ -1,0 +1,36 @@
+import React from 'react';
+
+import reviewProp from '../../../../../props/review-prop';
+
+function Review({
+  review: {comment, user, date, rating},
+}) {
+  return (
+    <div className="review">
+      <blockquote className="review__quote">
+        <p className="review__text">
+          {comment}
+        </p>
+
+        <footer className="review__details">
+          <cite className="review__author">
+            {user.name}
+          </cite>
+          <time className="review__date">
+            {date}
+          </time>
+        </footer>
+      </blockquote>
+
+      <div className="review__rating">
+        {rating}
+      </div>
+    </div>
+  );
+}
+
+Review.propTypes = {
+  review: reviewProp.isRequired,
+};
+
+export default Review;
