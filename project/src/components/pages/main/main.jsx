@@ -11,13 +11,14 @@ import Description from '../../ui/film-card/description/description';
 import Poster from '../../ui/film-card/poster/poster';
 
 function Main({
-  promoFilm: {name, posterImage, backgroundImage, genre, released},
+  promoFilm: {id, name, posterImage, backgroundImage, genre, released},
   films,
 }) {
   return (
     <>
       <section className="film-card">
         <Preview
+          id={id}
           image={backgroundImage}
           name={name}
         />
@@ -30,6 +31,7 @@ function Main({
             />
 
             <Description
+              id={id}
               name={name}
               genre={genre}
               released={released}
@@ -42,11 +44,8 @@ function Main({
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <Genres />
-
-          <FilmList
-            films={films}
-          />
+          <Genres films={films} />
+          <FilmList films={films} />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">
