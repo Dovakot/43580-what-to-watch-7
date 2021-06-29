@@ -1,13 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-function Player() {
+import ExitButton from '../../ui/player-controls/exit-button/exit-button';
+import PlayButton from '../../ui/player-controls/play-button/play-button';
+import FullScreenButton from '../../ui/player-controls/full-screen-button/full-screen-button';
+
+function Player({name, video, preview, runTime}) {
   return (
     <div className="player">
-      <video src="#" className="player__video" poster="img/player-poster.jpg" />
+      <video
+        className="player__video"
+        src={video}
+        poster={preview}
+      />
 
-      <button type="button" className="player__exit">
-        Exit
-      </button>
+      <ExitButton />
 
       <div className="player__controls">
         <div className="player__controls-row">
@@ -17,28 +24,30 @@ function Player() {
               Toggler
             </div>
           </div>
-          <div className="player__time-value">1:30:29</div>
+          <div className="player__time-value">
+            {runTime}
+          </div>
         </div>
 
         <div className="player__controls-row">
-          <button type="button" className="player__play">
-            <svg viewBox="0 0 19 19" width={19} height={19}>
-              <use xlinkHref="#play-s" />
-            </svg>
-            <span>Play</span>
-          </button>
-          <div className="player__name">Transpotting</div>
+          <PlayButton />
 
-          <button type="button" className="player__full-screen">
-            <svg viewBox="0 0 27 27" width={27} height={27}>
-              <use xlinkHref="#full-screen" />
-            </svg>
-            <span>Full screen</span>
-          </button>
+          <div className="player__name">
+            {name}
+          </div>
+
+          <FullScreenButton />
         </div>
       </div>
     </div>
   );
 }
+
+Player.propTypes = {
+  name: PropTypes.string.isRequired,
+  video: PropTypes.string.isRequired,
+  preview: PropTypes.string.isRequired,
+  runTime: PropTypes.number.isRequired,
+};
 
 export default Player;
