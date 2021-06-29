@@ -1,19 +1,26 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 
 import filmProp from '../../../props/film-prop';
-
 import SmallFilmCard from './small-film-card/small-film-card';
 
-const getSmallFilmCard = ({id, name, posterImage}) => (
-  <SmallFilmCard
-    key={id}
-    name={name}
-    poster={posterImage}
-  />
-);
-
 function FilmList({films}) {
+  const [activeFilm, setActiveFilm] = useState(null);
+
+  const onActiveFilmChange = (currentFilm) => setActiveFilm(currentFilm);
+
+  const getSmallFilmCard = ({id, name, previewImage, videoLink}) => (
+    <SmallFilmCard
+      key={id}
+      id={id}
+      name={name}
+      previewImage={previewImage}
+      videoLink={videoLink}
+      activeFilm={activeFilm}
+      onActiveFilmChange={onActiveFilmChange}
+    />
+  );
+
   return (
     <div className="catalog__films-list">
       {films.map(getSmallFilmCard)}
