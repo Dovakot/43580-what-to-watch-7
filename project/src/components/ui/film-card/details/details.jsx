@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {DateFormat} from '../../../../const';
+import {getTime} from '../../../../utils/date-util';
+
 function Details({director, starring, runTime, genre, released}) {
   return (
     <div className="film-card__text film-card__row">
@@ -22,7 +25,7 @@ function Details({director, starring, runTime, genre, released}) {
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
           <span className="film-card__details-value">
-            {runTime}
+            {getTime(runTime, DateFormat.TIME)}
           </span>
         </p>
         <p className="film-card__details-item">

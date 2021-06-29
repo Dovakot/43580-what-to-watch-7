@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {DateFormat} from '../../../../../const';
+import {getFormattedDate} from '../../../../../utils/date-util';
 import reviewProp from '../../../../../props/review-prop';
 
 function Review({
@@ -9,15 +11,17 @@ function Review({
     <div className="review">
       <blockquote className="review__quote">
         <p className="review__text">
-          {comment}
+          {comment}<br /><br />
         </p>
 
         <footer className="review__details">
           <cite className="review__author">
             {user.name}
           </cite>
-          <time className="review__date">
-            {date}
+          <time className="review__date"
+            dateTime={getFormattedDate(date, DateFormat.MACHINE_DATE)}
+          >
+            {getFormattedDate(date, DateFormat.DATE)}
           </time>
         </footer>
       </blockquote>

@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {DateFormat} from '../../../const';
+import {getTime} from '../../../utils/date-util';
+
 import ExitButton from '../../ui/player-controls/exit-button/exit-button';
 import PlayButton from '../../ui/player-controls/play-button/play-button';
 import FullScreenButton from '../../ui/player-controls/full-screen-button/full-screen-button';
@@ -25,7 +28,7 @@ function Player({name, video, preview, runTime}) {
             </div>
           </div>
           <div className="player__time-value">
-            {runTime}
+            {getTime(runTime, DateFormat.TIME_FULL)}
           </div>
         </div>
 

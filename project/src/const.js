@@ -7,6 +7,13 @@ const AppRoute = {
   PLAYER: '/player/:id',
 };
 
+const DateFormat = {
+  DATE: 'MMMM DD, YYYY',
+  TIME: 'H[h] mm[m]',
+  TIME_FULL: 'H:mm:ss',
+  MACHINE_DATE: 'YYYY-MM-DD',
+};
+
 const PosterModifier = {
   BIG: 'big',
   SMALL: 'small',
@@ -47,6 +54,7 @@ const FilmInfo = {
 
 export {
   AppRoute,
+  DateFormat,
   PosterModifier,
   GenreInfo,
   FilmInfo
