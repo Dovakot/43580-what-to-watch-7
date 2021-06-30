@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import cn from 'classnames';
 
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import Logo from '../../logo/logo';
 import UserBlock from '../../user-block/user-block';
 
-function Preview({image, name, isReview}) {
+function Preview({id, name, image, isReview}) {
   const headerClass = cn('page-header', {
     'film-card__head': !isReview,
   });
@@ -26,7 +25,7 @@ function Preview({image, name, isReview}) {
       <header className={headerClass}>
         <Logo />
 
-        {isReview && <Breadcrumbs name={name} />}
+        {isReview && <Breadcrumbs name={name} id={id} />}
 
         <UserBlock />
       </header>
@@ -35,8 +34,9 @@ function Preview({image, name, isReview}) {
 }
 
 Preview.propTypes = {
-  image: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
   isReview: PropTypes.bool,
 };
 

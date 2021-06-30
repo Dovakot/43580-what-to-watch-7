@@ -1,23 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  BrowserRouter,
-  Switch,
-  Route
-} from 'react-router-dom';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
-import {
-  FILM_PROP,
-  AppRoute
-} from '../../const';
+import {AppRoute} from '../../const';
+import filmProp from '../../props/film-prop';
 
 import Main from '../pages/main/main';
 import SignIn from '../pages/sign-in/sign-in';
-import Film from '../pages/film/film';
 import MyList from '../pages/my-list/my-list';
-import AddReview from '../pages/add-review/add-review';
-import Player from '../pages/player/player';
 import NotFound from '../pages/not-found/not-found';
+import {PageType, getPage} from '../pages/pages';
 
 function App({promoFilm, films}) {
   return (
@@ -34,30 +26,27 @@ function App({promoFilm, films}) {
           <SignIn />
         </Route>
 
-        <Route path={AppRoute.FILM} exact>
-          <Film
-            film={promoFilm}
-            similarFilms={films}
-          />
-        </Route>
+        <Route
+          path={AppRoute.FILM}
+          render={({match}) => getPage(match.params, films, PageType.FILM)}
+          exact
+        />
 
-        <Route path={AppRoute.REVIEW} exact>
-          <AddReview
-            name={promoFilm.name}
-            poster={promoFilm.posterImage}
-            backgroundImage={promoFilm.backgroundImage}
-          />
-        </Route>
+        <Route
+          path={AppRoute.REVIEW}
+          render={({match}) => getPage(match.params, films, PageType.REVIEW)}
+          exact
+        />
 
         <Route path={AppRoute.MY_LIST} exact>
-          <MyList
-            films={films}
-          />
+          <MyList films={films} />
         </Route>
 
-        <Route path={AppRoute.PLAYER} exact>
-          <Player />
-        </Route>
+        <Route
+          path={AppRoute.PLAYER}
+          render={({match}) => getPage(match.params, films, PageType.PLAYER)}
+          exact
+        />
 
         <Route>
           <NotFound />
@@ -68,8 +57,8 @@ function App({promoFilm, films}) {
 }
 
 App.propTypes = {
-  promoFilm: FILM_PROP.isRequired,
-  films: PropTypes.arrayOf(FILM_PROP).isRequired,
+  promoFilm: filmProp.isRequired,
+  films: PropTypes.arrayOf(filmProp).isRequired,
 };
 
 export default App;

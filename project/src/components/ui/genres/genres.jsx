@@ -1,33 +1,36 @@
-import React from 'react';
+import PropTypes from 'prop-types';
+import React, {useState} from 'react';
+
+import filmProp from '../../../props/film-prop';
+import {GenreInfo} from '../../../const';
+import {getGenresFromFilm} from '../../../utils/film-util';
 
 import Genre from './ganre/ganre';
 
-const GENRES = [
-  'All genres',
-  'Comedies',
-  'Crime',
-  'Documentary',
-  'Dramas',
-  'Horror',
-  'Kids & Family',
-  'Romance',
-  'Sci-Fi',
-  'Thrillers',
-];
+function Genres({films}) {
+  const [activeGenre, setActiveGenre] = useState(GenreInfo.DEFAULT);
 
-const getGenre = (genre) => (
-  <Genre
-    key={genre}
-    genre={genre}
-  />
-);
+  const onActiveGenreChange = (currentGenre) => currentGenre !== activeGenre
+    && setActiveGenre(currentGenre);
 
-function Genres() {
+  const getGenre = (genre) => (
+    <Genre
+      key={genre}
+      currentGenre={genre}
+      activeGenre={activeGenre}
+      onActiveGenreChange={onActiveGenreChange}
+    />
+  );
+
   return (
     <ul className="catalog__genres-list">
-      {GENRES.map(getGenre)}
+      {getGenresFromFilm(films).map(getGenre)}
     </ul>
   );
 }
+
+Genres.propTypes = {
+  films: PropTypes.arrayOf(filmProp).isRequired,
+};
 
 export default Genres;

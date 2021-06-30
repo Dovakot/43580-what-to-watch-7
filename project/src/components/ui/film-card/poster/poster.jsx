@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
-const setPosterAlt = (name) => `${name} poster`;
+import {setPosterAlt} from '../../../../utils/film-util';
 
 function Poster({modifier, name, poster}) {
   const posterClass = cn('film-card__poster', {

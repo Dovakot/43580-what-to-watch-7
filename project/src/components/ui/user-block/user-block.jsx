@@ -1,13 +1,24 @@
 import React from 'react';
-import {
-  Link
-} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
+
+import {AppRoute} from '../../../const';
 
 function UserBlock() {
+  const history = useHistory();
+
+  const onAvatarClick = (evt) => {
+    evt.preventDefault();
+
+    history.push(AppRoute.MY_LIST);
+  };
+
   return (
     <ul className="user-block">
       <li className="user-block__item">
-        <div className="user-block__avatar">
+        <div
+          className="user-block__avatar"
+          onClick={onAvatarClick}
+        >
           <img
             src="img/avatar.jpg"
             alt="User avatar"

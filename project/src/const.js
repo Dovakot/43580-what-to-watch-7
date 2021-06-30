@@ -1,32 +1,17 @@
-import PropTypes from 'prop-types';
-
-const FILM_PROP = PropTypes.shape({
-  id: PropTypes.number,
-  name: PropTypes.string,
-  posterImage: PropTypes.string,
-  previewImage: PropTypes.string,
-  backgroundImage: PropTypes.string,
-  backgroundColor: PropTypes.string,
-  videoLink: PropTypes.string,
-  previewVideoLink: PropTypes.string,
-  description: PropTypes.string,
-  rating: PropTypes.number,
-  scoresCount: PropTypes.number,
-  director: PropTypes.string,
-  starring: PropTypes.arrayOf(PropTypes.string),
-  runTime: PropTypes.number,
-  genre: PropTypes.string,
-  released: PropTypes.number,
-  isFavorite: PropTypes.bool,
-});
-
 const AppRoute = {
   ROOT: '/',
   LOGIN: '/login',
   FILM: '/films/:id',
   REVIEW: '/films/:id/review',
   MY_LIST: '/mylist',
-  PLAYER: '/player',
+  PLAYER: '/player/:id',
+};
+
+const DateFormat = {
+  DATE: 'MMMM DD, YYYY',
+  TIME: 'H[h] mm[m]',
+  TIME_FULL: 'H:mm:ss',
+  MACHINE_DATE: 'YYYY-MM-DD',
 };
 
 const PosterModifier = {
@@ -34,8 +19,43 @@ const PosterModifier = {
   SMALL: 'small',
 };
 
+const GenreInfo = {
+  DEFAULT: 'All genres',
+  COUNT: 9,
+};
+
+const FilmInfo = {
+  MAX_FILM_COUNT: 4,
+  MAX_ACTOR_COUNT: 4,
+  PLAY_DELAY_TIME: 1000,
+  RATINGS: [
+    {
+      rating: 10,
+      title: 'Awesome',
+    },
+    {
+      rating: 8,
+      title: 'Very good',
+    },
+    {
+      rating: 5,
+      title: 'Good',
+    },
+    {
+      rating: 3,
+      title: 'Normal',
+    },
+    {
+      rating: 0,
+      title: 'Bad',
+    },
+  ],
+};
+
 export {
-  FILM_PROP,
   AppRoute,
-  PosterModifier
+  DateFormat,
+  PosterModifier,
+  GenreInfo,
+  FilmInfo
 };

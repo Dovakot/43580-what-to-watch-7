@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const setStarCount = (count) => `star-${count}`;
+import {setStarCount} from '../../../../utils/film-util';
 
-function RatingStar({count}) {
+function RatingStar({count, currentRating}) {
   return (
     <>
       <input
@@ -12,6 +12,7 @@ function RatingStar({count}) {
         type="radio"
         name="rating"
         defaultValue={count}
+        defaultChecked={currentRating === count}
       />
       <label className="rating__label" htmlFor={setStarCount(count)}>
         Rating {count}
@@ -22,6 +23,7 @@ function RatingStar({count}) {
 
 RatingStar.propTypes = {
   count: PropTypes.number.isRequired,
+  currentRating: PropTypes.number.isRequired,
 };
 
 
