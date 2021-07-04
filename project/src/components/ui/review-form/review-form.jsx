@@ -60,8 +60,6 @@ function ReviewForm() {
   const onFormSubmit = (evt) => {
     evt.preventDefault();
 
-    // console.log(formValue);
-    // пока для того чтобы линтер не ругался на неиспользуемую formValue
     return formValue;
   };
 
