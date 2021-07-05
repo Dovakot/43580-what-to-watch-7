@@ -10,6 +10,8 @@ const setPosterAlt = (name) => `${name} poster`;
 
 const setStarCount = (count) => `star-${count}`;
 
+const setViewBox = (width, height) => `0 0 ${width} ${height}`;
+
 const getRatingTitle = (value) => FilmInfo.RATINGS
   .find(({rating}) => rating <= value).title;
 
@@ -42,6 +44,7 @@ export {
   getStarsValue,
   setPosterAlt,
   setStarCount,
+  setViewBox,
   getRatingTitle,
   getActors,
   getGenresFromFilm,

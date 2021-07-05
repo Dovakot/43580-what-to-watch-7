@@ -1,14 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {Link, generatePath} from 'react-router-dom';
 
 import {AppRoute} from '../../../../const';
 
-function SmallFilmCard({id, name, previewImage, videoLink, onActiveFilmChange}) {
-  const pathToFilm = generatePath(AppRoute.FILM, {id});
+import VideoPreview from './video-preview/video-preview';
 
-  const onMouseEnter = () => onActiveFilmChange(id);
-  const onMouseLeave = () => onActiveFilmChange(null);
+function SmallFilmCard({id, name, previewImage, videoLink}) {
+  const pathToFilm = generatePath(AppRoute.FILM, {id});
+  const [isActive, setIsActive] = useState(false);
+
+  const onMouseEnter = () => setIsActive(true);
+  const onMouseLeave = () => setIsActive(false);
 
   return (
     <article
@@ -17,11 +20,11 @@ function SmallFilmCard({id, name, previewImage, videoLink, onActiveFilmChange}) 
       onMouseLeave={onMouseLeave}
     >
       <div className="small-film-card__image">
-        <img
-          src={previewImage}
-          alt={name}
-          width={280}
-          height={175}
+        <VideoPreview
+          name={name}
+          video={videoLink}
+          preview={previewImage}
+          isActive={isActive}
         />
       </div>
 
@@ -39,7 +42,6 @@ SmallFilmCard.propTypes = {
   name: PropTypes.string.isRequired,
   previewImage: PropTypes.string.isRequired,
   videoLink: PropTypes.string.isRequired,
-  onActiveFilmChange: PropTypes.func.isRequired,
 };
 
 export default SmallFilmCard;
