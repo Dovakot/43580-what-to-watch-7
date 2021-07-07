@@ -2,7 +2,10 @@ import {GenreInfo, FilmInfo} from '../const';
 
 const COLUMNS_COUNT = 2;
 
-const filterByFavorites = (films) => films.filter((film) => film.isFavorite);
+const filterByGenre = (films, currentGenre) => GenreInfo.DEFAULT !== currentGenre
+  ? films.filter(({genre}) => genre === currentGenre) : films;
+
+const filterByFavorites = (films) => films.filter(({isFavorite}) => isFavorite);
 
 const getStarsValue = (count) => Array.from({length: count}, (v, i) => count - i);
 
@@ -40,6 +43,7 @@ const getReviewColCount = (count) => {
 };
 
 export {
+  filterByGenre,
   filterByFavorites,
   getStarsValue,
   setPosterAlt,
