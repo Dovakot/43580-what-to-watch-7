@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {filterByFavorites} from '../../../utils/film-util';
 import filmProp from '../../../props/film-prop';
 
 import Logo from '../../ui/logo/logo';
@@ -22,7 +21,7 @@ function MyList({films}) {
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-        <FilmList films={filterByFavorites(films)} />
+        <FilmList films={films} />
       </section>
 
       <PageFooter />
