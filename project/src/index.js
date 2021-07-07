@@ -1,17 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import {reducer} from './store/reducer';
+import {composeWithDevTools} from 'redux-devtools-extension';
+
 import App from './components/app/app';
 
-import {
-  filmData,
-  promoFilmData
-} from './mocks/films';
+const store = createStore(
+  reducer,
+  composeWithDevTools(),
+);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App
-      films={filmData}
-      promoFilm={promoFilmData}
-    />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
-  document.getElementById('root'));
+  document.getElementById('root'),
+);
