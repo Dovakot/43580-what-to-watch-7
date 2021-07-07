@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 import {AppRoute} from '../../const';
 import filmProp from '../../props/film-prop';
@@ -11,7 +12,7 @@ import MyList from '../pages/my-list/my-list';
 import NotFound from '../pages/not-found/not-found';
 import {PageType, getPage} from '../pages/pages';
 
-function App({promoFilm, films}) {
+function App({promoFilm, films, similarFilms, favoritesFilms}) {
   return (
     <BrowserRouter>
       <Switch>
@@ -28,7 +29,7 @@ function App({promoFilm, films}) {
 
         <Route
           path={AppRoute.FILM}
-          render={({match}) => getPage(match.params, films, PageType.FILM)}
+          render={({match}) => getPage(match.params, similarFilms, PageType.FILM)}
           exact
         />
 
@@ -39,7 +40,7 @@ function App({promoFilm, films}) {
         />
 
         <Route path={AppRoute.MY_LIST} exact>
-          <MyList films={films} />
+          <MyList films={favoritesFilms} />
         </Route>
 
         <Route
@@ -56,9 +57,19 @@ function App({promoFilm, films}) {
   );
 }
 
+const mapStateToProps = (state) => ({
+  promoFilm: state.promoFilm,
+  films: state.films,
+  similarFilms: state.similarFilms,
+  favoritesFilms: state.favoritesFilms,
+});
+
 App.propTypes = {
   promoFilm: filmProp.isRequired,
   films: PropTypes.arrayOf(filmProp).isRequired,
+  similarFilms: PropTypes.arrayOf(filmProp).isRequired,
+  favoritesFilms: PropTypes.arrayOf(filmProp).isRequired,
 };
 
-export default App;
+export {App};
+export default connect(mapStateToProps)(App);
