@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import cn from 'classnames';
 
-import {AppRoute} from '../../../../const';
+import {AppRoute} from '../../../../../const';
 
 function Genre({currentGenre, activeGenre, onActiveGenreChange}) {
   const itemClass = cn('catalog__genres-item',
@@ -13,7 +13,7 @@ function Genre({currentGenre, activeGenre, onActiveGenreChange}) {
   const onLinkClick = (evt) => {
     evt.preventDefault();
 
-    onActiveGenreChange(currentGenre);
+    return currentGenre !== activeGenre && onActiveGenreChange(currentGenre);
   };
 
   return (
