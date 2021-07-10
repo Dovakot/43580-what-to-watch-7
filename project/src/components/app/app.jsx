@@ -12,7 +12,7 @@ import MyList from '../pages/my-list/my-list';
 import NotFound from '../pages/not-found/not-found';
 import {PageType, getPage} from '../pages/pages';
 
-function App({promoFilm, films, similarFilms, favoritesFilms}) {
+function App({promoFilm, films}) {
   return (
     <BrowserRouter>
       <Switch>
@@ -29,7 +29,7 @@ function App({promoFilm, films, similarFilms, favoritesFilms}) {
 
         <Route
           path={AppRoute.FILM}
-          render={({match}) => getPage(match.params, similarFilms, PageType.FILM)}
+          render={({match}) => getPage(match.params, films, PageType.FILM)}
           exact
         />
 
@@ -40,7 +40,7 @@ function App({promoFilm, films, similarFilms, favoritesFilms}) {
         />
 
         <Route path={AppRoute.MY_LIST} exact>
-          <MyList films={favoritesFilms} />
+          <MyList films={films} />
         </Route>
 
         <Route
@@ -57,18 +57,14 @@ function App({promoFilm, films, similarFilms, favoritesFilms}) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  promoFilm: state.promoFilm,
-  films: state.films,
-  similarFilms: state.similarFilms,
-  favoritesFilms: state.favoritesFilms,
+const mapStateToProps = ({promoFilm, films}) => ({
+  promoFilm,
+  films,
 });
 
 App.propTypes = {
   promoFilm: filmProp.isRequired,
   films: PropTypes.arrayOf(filmProp).isRequired,
-  similarFilms: PropTypes.arrayOf(filmProp).isRequired,
-  favoritesFilms: PropTypes.arrayOf(filmProp).isRequired,
 };
 
 export {App};

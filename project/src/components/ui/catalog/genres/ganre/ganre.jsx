@@ -1,19 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 import cn from 'classnames';
 
+import {ActionCreator} from '../../../../../store/actions';
 import {AppRoute} from '../../../../../const';
+import filmProp from '../../../../../props/film-prop';
 
-function Genre({currentGenre, activeGenre, onActiveGenreChange}) {
+function Genre({genre, films, isActive, onActiveGenreChange}) {
   const itemClass = cn('catalog__genres-item',
-    {'catalog__genres-item--active': currentGenre === activeGenre},
+    {'catalog__genres-item--active': !isActive},
   );
 
   const onLinkClick = (evt) => {
     evt.preventDefault();
 
-    return currentGenre !== activeGenre && onActiveGenreChange(currentGenre);
+    return isActive && onActiveGenreChange(genre, films);
   };
 
   return (
@@ -23,16 +26,29 @@ function Genre({currentGenre, activeGenre, onActiveGenreChange}) {
         to={AppRoute.ROOT}
         onClick={onLinkClick}
       >
-        {currentGenre}
+        {genre}
       </Link>
     </li>
   );
 }
 
+const mapStateToProps = ({films}) => ({
+  films,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onActiveGenreChange(genre, films) {
+    dispatch(ActionCreator.changeGenre(genre));
+    dispatch(ActionCreator.getFilmsByGenre(films));
+  },
+});
+
 Genre.propTypes = {
-  currentGenre: PropTypes.string.isRequired,
-  activeGenre: PropTypes.string.isRequired,
+  genre: PropTypes.string.isRequired,
+  films: PropTypes.arrayOf(filmProp).isRequired,
+  isActive: PropTypes.bool.isRequired,
   onActiveGenreChange: PropTypes.func.isRequired,
 };
 
-export default Genre;
+export {Genre};
+export default connect(mapStateToProps, mapDispatchToProps)(Genre);

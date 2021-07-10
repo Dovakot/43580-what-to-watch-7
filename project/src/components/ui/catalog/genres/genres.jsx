@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import {connect} from 'react-redux';
 
 import Genre from './ganre/ganre';
 
-function Genres({genres, activeGenre, onActiveGenreChange}) {
+function Genres({genres, activeGenre}) {
   const getGenre = (genre) => (
     <Genre
       key={genre}
-      currentGenre={genre}
-      activeGenre={activeGenre}
-      onActiveGenreChange={onActiveGenreChange}
+      genre={genre}
+      isActive={genre !== activeGenre}
     />
   );
 
@@ -20,10 +20,14 @@ function Genres({genres, activeGenre, onActiveGenreChange}) {
   );
 }
 
+const mapStateToProps = ({activeGenre}) => ({
+  activeGenre,
+});
+
 Genres.propTypes = {
   genres: PropTypes.arrayOf(PropTypes.string).isRequired,
   activeGenre: PropTypes.string.isRequired,
-  onActiveGenreChange: PropTypes.func.isRequired,
 };
 
-export default Genres;
+export {Genres};
+export default connect(mapStateToProps)(Genres);

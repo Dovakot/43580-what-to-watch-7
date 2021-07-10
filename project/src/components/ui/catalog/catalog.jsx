@@ -2,22 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {ActionCreator} from '../../../store/actions';
+import {getGenresFromFilm, filterByGenre} from '../../../utils/film-util';
 import filmProp from '../../../props/film-prop';
 
 import Genres from './genres/genres';
 import FilmList from '../../ui/film-list/film-list';
 
-function Catalog({films, genre, genres, onActiveGenreChange}) {
+function Catalog({films, activeGenre}) {
   return (
     <>
-      <Genres
-        genres={genres}
-        activeGenre={genre}
-        onActiveGenreChange={onActiveGenreChange}
-      />
+      <Genres genres={getGenresFromFilm(films)} />
 
-      <FilmList films={films} />
+      <FilmList films={filterByGenre(films, activeGenre)} />
 
       <div className="catalog__more">
         <button className="catalog__button" type="button">
@@ -28,25 +24,14 @@ function Catalog({films, genre, genres, onActiveGenreChange}) {
   );
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  onActiveGenreChange(currentGenre) {
-    dispatch(ActionCreator.changeGenre(currentGenre));
-    dispatch(ActionCreator.getFilmsByGenre(currentGenre));
-  },
-});
-
-const mapStateToProps = (state) => ({
-  films: state.films,
-  genre: state.genre,
-  genres: state.genres,
+const mapStateToProps = ({activeGenre}) => ({
+  activeGenre,
 });
 
 Catalog.propTypes = {
   films: PropTypes.arrayOf(filmProp).isRequired,
-  genre: PropTypes.string.isRequired,
-  genres: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onActiveGenreChange: PropTypes.func.isRequired,
+  activeGenre: PropTypes.string.isRequired,
 };
 
 export {Catalog};
-export default connect(mapStateToProps, mapDispatchToProps)(Catalog);
+export default connect(mapStateToProps)(Catalog);
