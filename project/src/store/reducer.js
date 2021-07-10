@@ -1,15 +1,11 @@
 import {GenreInfo} from '../const';
-import {getGenresFromFilm, filterByGenre, filterByFavorites} from '../utils/film-util';
 import {ActionType} from './actions';
 import {filmData, promoFilmData} from '../mocks/films';
 
 const initialState = {
-  genre: GenreInfo.DEFAULT,
-  genres: getGenresFromFilm(filmData),
+  activeGenre: GenreInfo.DEFAULT,
   promoFilm: promoFilmData,
   films: filmData,
-  similarFilms: filmData,
-  favoritesFilms: filterByFavorites(filmData),
 };
 
 const reducer = (state = initialState, action) => {
@@ -17,15 +13,13 @@ const reducer = (state = initialState, action) => {
     case ActionType.CHANGE_GENRE:
       return {
         ...state,
-        genre: action.payload,
+        activeGenre: action.payload,
       };
-
     case ActionType.GET_FILMS_BY_GENRE:
       return {
         ...state,
-        films: filterByGenre(filmData, action.payload),
+        films: action.payload,
       };
-
     default:
       return state;
   }
