@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import filmProp from '../../../props/film-prop';
+import {filterByFavorites} from '../../../utils/film-util';
 
 import Logo from '../../ui/logo/logo';
 import FilmList from '../../ui/film-list/film-list';
@@ -21,7 +22,7 @@ function MyList({films}) {
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-        <FilmList films={films} />
+        <FilmList films={filterByFavorites(films)} />
       </section>
 
       <PageFooter />
