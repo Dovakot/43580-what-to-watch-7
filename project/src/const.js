@@ -7,6 +7,11 @@ const AppRoute = {
   PLAYER: '/player/:id',
 };
 
+const PageType = {
+  REVIEW: 'review',
+  PLAYER: 'player',
+};
+
 const DateFormat = {
   DATE: 'MMMM DD, YYYY',
   TIME: 'H[h] mm[m]',
@@ -54,6 +59,7 @@ const FilmInfo = {
 
 export {
   AppRoute,
+  PageType,
   DateFormat,
   PosterModifier,
   GenreInfo,
