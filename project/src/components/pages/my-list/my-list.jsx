@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 import filmProp from '../../../props/film-prop';
 import {filterByFavorites} from '../../../utils/film-util';
@@ -30,8 +31,13 @@ function MyList({films}) {
   );
 }
 
+const mapStateToProps = ({films}) => ({
+  films,
+});
+
 MyList.propTypes = {
   films: PropTypes.arrayOf(filmProp).isRequired,
 };
 
-export default MyList;
+export {MyList};
+export default connect(mapStateToProps)(MyList);

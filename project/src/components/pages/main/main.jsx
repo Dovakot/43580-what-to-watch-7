@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 import filmProp from '../../../props/film-prop';
 
@@ -11,7 +11,6 @@ import Poster from '../../ui/film-card/poster/poster';
 
 function Main({
   promoFilm: {id, name, posterImage, backgroundImage, genre, released},
-  films,
 }) {
   return (
     <>
@@ -43,7 +42,7 @@ function Main({
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <Catalog films={films} />
+          <Catalog />
         </section>
 
         <PageFooter />
@@ -52,9 +51,13 @@ function Main({
   );
 }
 
+const mapStateToProps = ({promoFilm}) => ({
+  promoFilm,
+});
+
 Main.propTypes = {
   promoFilm: filmProp.isRequired,
-  films: PropTypes.arrayOf(filmProp).isRequired,
 };
 
-export default Main;
+export {Main};
+export default connect(mapStateToProps)(Main);

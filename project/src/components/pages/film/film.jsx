@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 import {PosterModifier, FilmInfo} from '../../../const';
 import filmProp from '../../../props/film-prop';
@@ -105,9 +106,14 @@ function Film({
   );
 }
 
+const mapStateToProps = ({films}) => ({
+  similarFilms: films,
+});
+
 Film.propTypes = {
   film: filmProp.isRequired,
   similarFilms: PropTypes.arrayOf(filmProp).isRequired,
 };
 
-export default Film;
+export {Film};
+export default connect(mapStateToProps)(Film);

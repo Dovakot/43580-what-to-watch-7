@@ -24,7 +24,8 @@ function Catalog({films, activeGenre}) {
   );
 }
 
-const mapStateToProps = ({activeGenre}) => ({
+const mapStateToProps = ({films, activeGenre}) => ({
+  films,
   activeGenre,
 });
 
