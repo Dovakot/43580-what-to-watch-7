@@ -8,13 +8,13 @@ import ExitButton from '../../ui/player-controls/exit-button/exit-button';
 import PlayButton from '../../ui/player-controls/play-button/play-button';
 import FullScreenButton from '../../ui/player-controls/full-screen-button/full-screen-button';
 
-function Player({name, video, preview, runTime}) {
+function Player({name, videoLink, previewVideoLink, runTime}) {
   return (
     <div className="player">
       <video
         className="player__video"
-        src={video}
-        poster={preview}
+        src={videoLink}
+        poster={previewVideoLink}
       />
 
       <ExitButton />
@@ -48,8 +48,8 @@ function Player({name, video, preview, runTime}) {
 
 Player.propTypes = {
   name: PropTypes.string.isRequired,
-  video: PropTypes.string.isRequired,
-  preview: PropTypes.string.isRequired,
+  videoLink: PropTypes.string.isRequired,
+  previewVideoLink: PropTypes.string.isRequired,
   runTime: PropTypes.number.isRequired,
 };
 

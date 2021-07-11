@@ -7,7 +7,7 @@ import Preview from '../../ui/film-card/preview/preview';
 import Poster from '../../ui/film-card/poster/poster';
 import ReviewForm from '../../ui/review-form/review-form';
 
-function AddReview({id, name, poster, backgroundImage}) {
+function AddReview({id, name, posterImage, backgroundImage}) {
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
@@ -20,7 +20,7 @@ function AddReview({id, name, poster, backgroundImage}) {
 
         <Poster
           modifier={PosterModifier.SMALL}
-          poster={poster}
+          poster={posterImage}
           name={name}
         />
       </div>
@@ -35,7 +35,7 @@ function AddReview({id, name, poster, backgroundImage}) {
 AddReview.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  poster: PropTypes.string.isRequired,
+  posterImage: PropTypes.string.isRequired,
   backgroundImage: PropTypes.string.isRequired,
 };
 
