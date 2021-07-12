@@ -1,18 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 import filmProp from '../../../props/film-prop';
 
-import Genres from '../../ui/genres/genres';
+import Catalog from '../../ui/catalog/catalog';
 import PageFooter from '../../ui/page-footer/page-footer';
-import FilmList from '../../ui/film-list/film-list';
 import Preview from '../../ui/film-card/preview/preview';
 import Description from '../../ui/film-card/description/description';
 import Poster from '../../ui/film-card/poster/poster';
 
 function Main({
   promoFilm: {id, name, posterImage, backgroundImage, genre, released},
-  films,
 }) {
   return (
     <>
@@ -44,14 +42,7 @@ function Main({
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <Genres films={films} />
-          <FilmList films={films} />
-
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">
-              Show more
-            </button>
-          </div>
+          <Catalog />
         </section>
 
         <PageFooter />
@@ -60,9 +51,13 @@ function Main({
   );
 }
 
+const mapStateToProps = ({promoFilm}) => ({
+  promoFilm,
+});
+
 Main.propTypes = {
   promoFilm: filmProp.isRequired,
-  films: PropTypes.arrayOf(filmProp).isRequired,
 };
 
-export default Main;
+export {Main};
+export default connect(mapStateToProps)(Main);
