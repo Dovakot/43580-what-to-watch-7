@@ -32,6 +32,7 @@ const GenreInfo = {
 const FilmInfo = {
   MAX_FILM_COUNT: 4,
   MAX_ACTOR_COUNT: 4,
+  MAX_FILMS_PER_STEP: 8,
   PLAY_DELAY_TIME: 1000,
   RATINGS: [
     {
