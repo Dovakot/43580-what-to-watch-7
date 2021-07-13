@@ -1,6 +1,7 @@
 const ActionType = {
   CHANGE_GENRE: 'catalog/changeGenre',
   GET_FILMS_BY_GENRE: 'catalog/getFilmsByGenre',
+  SHOW_FILMS: 'catalog/showFilms',
 };
 
 const ActionCreator = {
@@ -11,6 +12,9 @@ const ActionCreator = {
   getFilmsByGenre: (films) => ({
     type: ActionType.GET_FILMS_BY_GENRE,
     payload: films,
+  }),
+  showFilms: () => ({
+    type: ActionType.SHOW_FILMS,
   }),
 };
 
