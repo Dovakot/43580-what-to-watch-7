@@ -1,5 +1,7 @@
 import React from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
 import {AppRoute, PageType} from '../../const';
 
@@ -8,8 +10,15 @@ import SignIn from '../pages/sign-in/sign-in';
 import MyList from '../pages/my-list/my-list';
 import NotFound from '../pages/not-found/not-found';
 import Pages from '../pages/pages';
+import PageLoading from '../ui/page-loading/page-loading';
 
-function App() {
+function App({isDataLoaded}) {
+  if (!isDataLoaded) {
+    return (
+      <PageLoading />
+    );
+  }
+
   return (
     <BrowserRouter>
       <Switch>
@@ -45,4 +54,13 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = ({isDataLoaded}) => ({
+  isDataLoaded,
+});
+
+App.propTypes = {
+  isDataLoaded: PropTypes.bool.isRequired,
+};
+
+export {App};
+export default connect(mapStateToProps)(App);

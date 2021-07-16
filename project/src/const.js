@@ -7,6 +7,11 @@ const AppRoute = {
   PLAYER: '/player/:id',
 };
 
+const ApiRoute = {
+  FILMS: '/films',
+  FILM_PROMO: '/promo',
+};
+
 const PageType = {
   REVIEW: 'review',
   PLAYER: 'player',
@@ -60,6 +65,7 @@ const FilmInfo = {
 
 export {
   AppRoute,
+  ApiRoute,
   PageType,
   DateFormat,
   PosterModifier,
