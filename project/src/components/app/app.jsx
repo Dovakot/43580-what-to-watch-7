@@ -12,8 +12,8 @@ import NotFound from '../pages/not-found/not-found';
 import Pages from '../pages/pages';
 import PageLoading from '../ui/page-loading/page-loading';
 
-function App({isDataLoaded}) {
-  if (!isDataLoaded) {
+function App({isLoading}) {
+  if (isLoading) {
     return (
       <PageLoading />
     );
@@ -54,12 +54,12 @@ function App({isDataLoaded}) {
   );
 }
 
-const mapStateToProps = ({isDataLoaded}) => ({
-  isDataLoaded,
+const mapStateToProps = ({isLoading}) => ({
+  isLoading,
 });
 
 App.propTypes = {
-  isDataLoaded: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export {App};
