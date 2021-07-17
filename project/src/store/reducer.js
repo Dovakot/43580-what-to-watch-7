@@ -7,7 +7,8 @@ const initialState = {
   promoFilm: {},
   films: [],
   filmsCounter: FilmInfo.MAX_FILMS_PER_STEP,
-  isDataLoaded: false,
+  isLoading: true,
+  isLoadingError: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -25,7 +26,8 @@ const reducer = (state = initialState, action) => {
     case ActionType.LOAD_DATA:
       return {
         ...state,
-        isDataLoaded: true,
+        isLoading: action.isLoading,
+        isLoadingError: action.isLoadingError,
       };
     case ActionType.CHANGE_GENRE:
       return {

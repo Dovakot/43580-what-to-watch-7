@@ -16,9 +16,10 @@ const ActionCreator = {
     type: ActionType.LOAD_FILM_PROMO,
     payload : film,
   }),
-  loadData: () => ({
+  loadData: (isLoadingError) => ({
     type: ActionType.LOAD_DATA,
-    payload: true,
+    isLoading: isLoadingError,
+    isLoadingError,
   }),
   changeGenre: (genre) => ({
     type: ActionType.CHANGE_GENRE,

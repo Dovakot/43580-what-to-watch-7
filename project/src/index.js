@@ -19,12 +19,15 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(thunk.withExtraArgument(api))),
 );
 
+const reportDownloadStatus = (flag) => store.dispatch(ActionCreator.loadData(flag));
+
 Promise
   .all([
     store.dispatch(fetchFilms()),
     store.dispatch(fetchFilmPromo()),
   ])
-  .then(() => store.dispatch(ActionCreator.loadData()));
+  .then(() => reportDownloadStatus(false))
+  .catch(() => reportDownloadStatus(true));
 
 ReactDOM.render(
   <React.StrictMode>
