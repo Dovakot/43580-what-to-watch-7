@@ -1,16 +1,34 @@
 import {FilmInfo, GenreInfo} from '../const';
 import {ActionType} from './actions';
-import {filmData, promoFilmData} from '../mocks/films';
+import {adaptToClientFilm} from '../services/adapters';
 
 const initialState = {
   activeGenre: GenreInfo.DEFAULT,
-  promoFilm: promoFilmData,
-  films: filmData,
+  promoFilm: {},
+  films: [],
   filmsCounter: FilmInfo.MAX_FILMS_PER_STEP,
+  isLoading: true,
+  isLoadingError: false,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case ActionType.LOAD_FILMS:
+      return {
+        ...state,
+        films: action.payload.map((film) => adaptToClientFilm(film)),
+      };
+    case ActionType.LOAD_FILM_PROMO:
+      return {
+        ...state,
+        promoFilm: adaptToClientFilm(action.payload),
+      };
+    case ActionType.LOAD_DATA:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+        isLoadingError: action.isLoadingError,
+      };
     case ActionType.CHANGE_GENRE:
       return {
         ...state,
