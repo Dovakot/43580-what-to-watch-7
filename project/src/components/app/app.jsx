@@ -1,9 +1,10 @@
 import React from 'react';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {Switch, Route, Router as BrowserRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import browserHistory from '../../browser-history';
 
-import {AppRoute, PageType} from '../../const';
+import {AppRoute, PageType, AuthorizationStatus} from '../../const';
 
 import Main from '../pages/main/main';
 import SignIn from '../pages/sign-in/sign-in';
@@ -12,15 +13,17 @@ import NotFound from '../pages/not-found/not-found';
 import Pages from '../pages/pages';
 import PageLoading from '../ui/page-loading/page-loading';
 
-function App({isLoading}) {
-  if (isLoading) {
+import PrivateRoute from '../private-route/private-route';
+
+function App({authorizationStatus, isLoading}) {
+  if (authorizationStatus === AuthorizationStatus.UNKNOWN || isLoading) {
     return (
       <PageLoading />
     );
   }
 
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
         <Route path={AppRoute.ROOT} exact>
           <Main />
@@ -34,13 +37,13 @@ function App({isLoading}) {
           <Pages />
         </Route>
 
-        <Route path={AppRoute.REVIEW} exact>
+        <PrivateRoute path={AppRoute.REVIEW} exact>
           <Pages type={PageType.REVIEW} />
-        </Route>
+        </PrivateRoute>
 
-        <Route path={AppRoute.MY_LIST} exact>
+        <PrivateRoute path={AppRoute.MY_LIST} exact>
           <MyList />
-        </Route>
+        </PrivateRoute>
 
         <Route path={AppRoute.PLAYER} exact>
           <Pages type={PageType.PLAYER} />
@@ -54,11 +57,13 @@ function App({isLoading}) {
   );
 }
 
-const mapStateToProps = ({isLoading}) => ({
+const mapStateToProps = ({isLoading, authorizationStatus}) => ({
+  authorizationStatus,
   isLoading,
 });
 
 App.propTypes = {
+  authorizationStatus: PropTypes.string.isRequired,
   isLoading: PropTypes.bool.isRequired,
 };
 

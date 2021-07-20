@@ -10,6 +10,8 @@ const AppRoute = {
 const ApiRoute = {
   FILMS: '/films',
   FILM_PROMO: '/promo',
+  LOGIN: '/login',
+  LOGOUT: '/logout',
 };
 
 const PageType = {
@@ -63,6 +65,12 @@ const FilmInfo = {
   ],
 };
 
+const AuthorizationStatus = {
+  AUTH: 'AUTH',
+  NO_AUTH: 'NO_AUTH',
+  UNKNOWN: 'UNKNOWN',
+};
+
 export {
   AppRoute,
   ApiRoute,
@@ -70,5 +78,6 @@ export {
   DateFormat,
   PosterModifier,
   GenreInfo,
-  FilmInfo
+  FilmInfo,
+  AuthorizationStatus
 };
