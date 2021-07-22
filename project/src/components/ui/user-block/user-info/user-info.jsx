@@ -3,13 +3,14 @@ import {useHistory} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {AppRoute} from '../../../../const';
+import {AppRoute, AuthorizationStatus} from '../../../../const';
+import {ActionCreator} from '../../../../store/actions';
 import {logout} from '../../../../store/api-actions';
-import userProp from '../../../../props/user-prop';
+import {userProp} from '../../../../props/user-prop';
 
 function UserInfo({
   user: {avatar, name},
-  onLinkClick,
+  logoutAccount,
 }) {
   const history = useHistory();
 
@@ -17,6 +18,12 @@ function UserInfo({
     evt.preventDefault();
 
     history.push(AppRoute.MY_LIST);
+  };
+
+  const onSignOutClick = (evt) => {
+    evt.preventDefault();
+
+    logoutAccount(AuthorizationStatus.PROCESS);
   };
 
   return (
@@ -37,7 +44,8 @@ function UserInfo({
       <li className="user-block__item">
         <a
           className="user-block__link"
-          onClick={onLinkClick}
+          href="/"
+          onClick={onSignOutClick}
         >
           Sign Out
         </a>
@@ -51,14 +59,15 @@ const mapStateToProps = ({user}) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onLinkClick() {
+  logoutAccount(status) {
+    dispatch(ActionCreator.requireAuthorization(status));
     dispatch(logout());
   },
 });
 
 UserInfo.propTypes = {
   user: userProp,
-  onLinkClick: PropTypes.func.isRequired,
+  logoutAccount: PropTypes.func.isRequired,
 };
 
 export {UserInfo};
