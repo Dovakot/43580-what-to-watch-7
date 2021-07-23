@@ -5,6 +5,9 @@ const ActionType = {
   CHANGE_GENRE: 'catalog/changeGenre',
   GET_FILMS_BY_GENRE: 'catalog/getFilmsByGenre',
   SHOW_FILMS: 'catalog/showFilms',
+  REQUIRED_AUTHORIZATION: 'user/requiredAuthorization',
+  LOGOUT: 'user/logout',
+  REDIRECT_TO_ROUTER: 'redirect',
 };
 
 const ActionCreator = {
@@ -31,6 +34,19 @@ const ActionCreator = {
   }),
   showFilms: () => ({
     type: ActionType.SHOW_FILMS,
+  }),
+  requireAuthorization: (status, isAuthorisationError, user) => ({
+    type: ActionType.REQUIRED_AUTHORIZATION,
+    status: status,
+    user: user,
+    isAuthorisationError,
+  }),
+  logout: () => ({
+    type: ActionType.LOGOUT,
+  }),
+  redirect: (url) =>({
+    type: ActionType.REDIRECT_TO_ROUTER,
+    payload: url,
   }),
 };
 

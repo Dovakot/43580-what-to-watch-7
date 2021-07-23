@@ -1,11 +1,14 @@
-import {FilmInfo, GenreInfo} from '../const';
+import {FilmInfo, GenreInfo, AuthorizationStatus} from '../const';
 import {ActionType} from './actions';
-import {adaptToClientFilm} from '../services/adapters';
+import {adaptToClientFilm, adaptToClientUser} from '../services/adapters';
 
 const initialState = {
   activeGenre: GenreInfo.DEFAULT,
   promoFilm: {},
   films: [],
+  user: {},
+  authorizationStatus: AuthorizationStatus.UNKNOWN,
+  isAuthorisationError: false,
   filmsCounter: FilmInfo.MAX_FILMS_PER_STEP,
   isLoading: true,
   isLoadingError: false,
@@ -44,6 +47,18 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         filmsCounter: state.filmsCounter + FilmInfo.MAX_FILMS_PER_STEP,
+      };
+    case ActionType.REQUIRED_AUTHORIZATION:
+      return {
+        ...state,
+        authorizationStatus: action.status,
+        user: adaptToClientUser(action.user || initialState.user),
+        isAuthorisationError: action.isAuthorisationError || initialState.isAuthorisationError,
+      };
+    case ActionType.LOGOUT:
+      return {
+        ...state,
+        authorizationStatus: AuthorizationStatus.NO_AUTH,
       };
     default:
       return state;

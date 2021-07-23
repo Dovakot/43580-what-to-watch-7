@@ -1,37 +1,29 @@
 import React from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
-import {AppRoute} from '../../../const';
+import {isCheckAuth, isAuthorizationProgress} from '../../../utils/utils';
 
-function UserBlock() {
-  const history = useHistory();
+import UserInfo from './user-info/user-info';
+import LoginLink from './login-link/login-link';
+import PageLoading from '../page-loading/page-loading';
 
-  const onAvatarClick = (evt) => {
-    evt.preventDefault();
-
-    history.push(AppRoute.MY_LIST);
-  };
-
+function UserBlock({authorizationStatus}) {
   return (
-    <ul className="user-block">
-      <li className="user-block__item">
-        <div
-          className="user-block__avatar"
-          onClick={onAvatarClick}
-        >
-          <img
-            src="img/avatar.jpg"
-            alt="User avatar"
-            width={63}
-            height={63}
-          />
-        </div>
-      </li>
-      <li className="user-block__item">
-        <Link className="user-block__link" to="/">Sign out</Link>
-      </li>
-    </ul>
+    <>
+      {isAuthorizationProgress(authorizationStatus) && <PageLoading />}
+      {isCheckAuth(authorizationStatus) ? <UserInfo /> : <LoginLink />}
+    </>
   );
 }
 
-export default UserBlock;
+const mapStateToProps = ({authorizationStatus}) => ({
+  authorizationStatus,
+});
+
+UserBlock.propTypes = {
+  authorizationStatus: PropTypes.string.isRequired,
+};
+
+export {UserBlock};
+export default connect(mapStateToProps)(UserBlock);
