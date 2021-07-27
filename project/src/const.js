@@ -1,3 +1,8 @@
+const DATA_LOADING = {
+  isLoading: true,
+  isError: false,
+};
+
 const AppRoute = {
   ROOT: '/',
   LOGIN: '/login',
@@ -5,6 +10,7 @@ const AppRoute = {
   REVIEW: '/films/:id/review',
   MY_LIST: '/mylist',
   PLAYER: '/player/:id',
+  NOT_FOUND: '/404',
 };
 
 const ApiRoute = {
@@ -12,11 +18,6 @@ const ApiRoute = {
   FILM_PROMO: '/promo',
   LOGIN: '/login',
   LOGOUT: '/logout',
-};
-
-const PageType = {
-  REVIEW: 'review',
-  PLAYER: 'player',
 };
 
 const DateFormat = {
@@ -37,7 +38,6 @@ const GenreInfo = {
 };
 
 const FilmInfo = {
-  MAX_FILM_COUNT: 4,
   MAX_ACTOR_COUNT: 4,
   MAX_FILMS_PER_STEP: 8,
   PLAY_DELAY_TIME: 1000,
@@ -73,9 +73,9 @@ const AuthorizationStatus = {
 };
 
 export {
+  DATA_LOADING,
   AppRoute,
   ApiRoute,
-  PageType,
   DateFormat,
   PosterModifier,
   GenreInfo,

@@ -1,103 +1,81 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {useParams} from 'react-router-dom';
 
-import {PosterModifier, FilmInfo} from '../../../const';
+import {filterById} from '../../../utils/film-util';
 import filmProp from '../../../props/film-prop';
+import {fetchFilm, fetchSimilarFilms, fetchFilmReviews} from '../../../store/api-actions';
 
 import PageFooter from '../../ui/page-footer/page-footer';
 import FilmList from '../../ui/film-list/film-list';
-import Preview from '../../ui/film-card/preview/preview';
-import Description from '../../ui/film-card/description/description';
-import Poster from '../../ui/film-card/poster/poster';
-import Overview from '../../ui/film-card/overview/overview';
-import Details from '../../ui/film-card/details/details';
-import Reviews from '../../ui/film-card/reviews/reviews';
-import Tabs from '../../ui/film-card/tabs/tabs';
-import TabItem from '../../ui/film-card/tabs/tab-item/tab-item';
+import FilmCard from '../../ui/film-card/film-card';
+import PageLoading from '../../ui/loading/page-loading/page-loading';
+import TextLoading from '../../ui/loading/text-loading/text-loading';
 
-function Film({
-  film: {
-    id,
-    name,
-    posterImage,
-    backgroundImage,
-    genre,
-    released,
-    rating,
-    scoresCount,
-    description,
-    director,
-    starring,
-    runTime,
-    isFavorite,
+const DataLoadingDefault = {
+  FILM: {
+    isLoading: true,
+    isError: false,
   },
-  similarFilms,
-}) {
+  SIMILAR_FILMS: {
+    isLoading: true,
+    isError: false,
+  },
+  FILM_REVIEWS: {
+    isLoading: true,
+    isError: false,
+  },
+};
+
+function Film({similarFilms, loadFilm, loadSimilarFilms, loadFilmReviews}) {
+  const {id} = useParams();
+  const [dataLoading, setDataLoading] = useState(DataLoadingDefault);
+
+  const checkDataLoading = (key, isError = false) => {
+    setDataLoading((prevValue) => ({
+      ...prevValue,
+      [key]: {
+        ...prevValue[key],
+        isLoading: isError,
+        isError,
+      },
+    }));
+  };
+
+  useEffect(() => {
+    const currentId = +id;
+
+    loadFilm(currentId)
+      .then(() => checkDataLoading('FILM'))
+      .catch(() => checkDataLoading('FILM', true));
+
+    loadSimilarFilms(currentId)
+      .then(() => checkDataLoading('SIMILAR_FILMS'))
+      .catch(() => checkDataLoading('SIMILAR_FILMS', true));
+
+    loadFilmReviews(currentId)
+      .then(() => checkDataLoading('FILM_REVIEWS'))
+      .catch(() => checkDataLoading('FILM_REVIEWS', true));
+
+    return () => setDataLoading(DataLoadingDefault);
+  }, [id, loadFilm, loadSimilarFilms, loadFilmReviews]);
+
+  if (dataLoading.FILM.isLoading) {
+    return <PageLoading {...dataLoading.FILM} />;
+  }
+
   return (
     <>
-      <section className="film-card film-card--full">
-        <div className="film-card__hero">
-          <Preview
-            id={id}
-            image={backgroundImage}
-            name={name}
-          />
-
-          <div className="film-card__wrap">
-            <Description
-              id={id}
-              name={name}
-              genre={genre}
-              released={released}
-              isReview
-              isFavorite
-            />
-          </div>
-        </div>
-
-        <div className="film-card__wrap film-card__translate-top">
-          <div className="film-card__info">
-            <Poster
-              modifier={PosterModifier.BIG}
-              poster={posterImage}
-              name={name}
-            />
-
-            <Tabs filmId={id}>
-              <TabItem label="Overview">
-                <Overview
-                  rating={rating}
-                  scoresCount={scoresCount}
-                  description={description}
-                  director={director}
-                  starring={starring}
-                />
-              </TabItem>
-
-              <TabItem label="Details">
-                <Details
-                  director={director}
-                  starring={starring}
-                  runTime={runTime}
-                  genre={genre}
-                  released={released}
-                />
-              </TabItem>
-
-              <TabItem label="Reviews">
-                <Reviews />
-              </TabItem>
-            </Tabs>
-          </div>
-        </div>
-      </section>
+      <FilmCard payload={dataLoading.FILM_REVIEWS} />
 
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmList films={similarFilms.slice(0, FilmInfo.MAX_FILM_COUNT)} />
+          {dataLoading.SIMILAR_FILMS.isLoading
+            ? <TextLoading {...dataLoading.SIMILAR_FILMS} />
+            : <FilmList films={filterById(similarFilms, +id)} />}
         </section>
 
         <PageFooter />
@@ -106,14 +84,28 @@ function Film({
   );
 }
 
-const mapStateToProps = ({films}) => ({
-  similarFilms: films,
+const mapStateToProps = ({similarFilms}) => ({
+  similarFilms,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  loadFilm(id) {
+    return dispatch(fetchFilm(id));
+  },
+  loadSimilarFilms(id) {
+    return dispatch(fetchSimilarFilms(id));
+  },
+  loadFilmReviews(id) {
+    return dispatch(fetchFilmReviews(id));
+  },
 });
 
 Film.propTypes = {
-  film: filmProp.isRequired,
   similarFilms: PropTypes.arrayOf(filmProp).isRequired,
+  loadFilm: PropTypes.func.isRequired,
+  loadSimilarFilms: PropTypes.func.isRequired,
+  loadFilmReviews: PropTypes.func.isRequired,
 };
 
 export {Film};
-export default connect(mapStateToProps)(Film);
+export default connect(mapStateToProps, mapDispatchToProps)(Film);

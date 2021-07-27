@@ -2,7 +2,7 @@ import {GenreInfo, FilmInfo} from '../const';
 
 const COLUMNS_COUNT = 2;
 
-const findFilmById = (films, id) => films.find((film) => film.id === id);
+const filterById = (films, id) => films.filter((film) => film.id !== id);
 
 const filterByGenre = (films, currentGenre) => GenreInfo.DEFAULT !== currentGenre
   ? films.filter(({genre}) => genre === currentGenre) : films;
@@ -45,7 +45,7 @@ const getReviewColCount = (count) => {
 };
 
 export {
-  findFilmById,
+  filterById,
   filterByGenre,
   filterByFavorites,
   getStarsValue,

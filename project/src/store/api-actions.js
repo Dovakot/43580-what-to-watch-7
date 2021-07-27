@@ -1,20 +1,35 @@
 import {ApiRoute, AppRoute, AuthorizationStatus} from '../const';
 import {ActionCreator} from '../store/actions';
 
-const fetchFilms  = () => (dispatch, _getState, api) => (
+const fetchFilm = (id) => (dispatch, _getState, api) => (
+  api.get(`${ApiRoute.FILMS}/${id}`)
+    .then(({data}) => dispatch(ActionCreator.loadFilm(data)))
+);
+
+const fetchPromoFilm = () => (dispatch, _getState, api) => (
+  api.get(ApiRoute.FILM_PROMO)
+    .then(({data}) => dispatch(ActionCreator.loadFilmPromo(data)))
+);
+
+const fetchFilms = () => (dispatch, _getState, api) => (
   api.get(ApiRoute.FILMS)
     .then(({data}) => dispatch(ActionCreator.loadFilms(data)))
 );
 
-const fetchFilmPromo = () => (dispatch, _getState, api) => (
-  api.get(ApiRoute.FILM_PROMO)
-    .then(({data}) => dispatch(ActionCreator.loadFilmPromo(data)))
+const fetchSimilarFilms = (id) => (dispatch, _getState, api) => (
+  api.get(`${ApiRoute.FILMS}/${id}/similar`)
+    .then(({data}) => dispatch(ActionCreator.loadSimilarFilms(data)))
+);
+
+const fetchFilmReviews = (id) => (dispatch, _getState, api) => (
+  api.get(`comments/${id}`)
+    .then(({data}) => dispatch(ActionCreator.loadFilmReviews(data)))
 );
 
 const checkAuth = () => (dispatch, _getState, api) => (
   api.get(ApiRoute.LOGIN)
     .then(({data}) => dispatch(
-      ActionCreator.requireAuthorization(AuthorizationStatus.AUTH, data),
+      ActionCreator.requireAuthorization(AuthorizationStatus.AUTH, false, data),
     ))
     .catch(() => {})
 );
@@ -40,8 +55,11 @@ const logout = () => (dispatch, _getState, api) => (
 );
 
 export {
+  fetchFilm,
+  fetchPromoFilm,
   fetchFilms,
-  fetchFilmPromo,
+  fetchSimilarFilms,
+  fetchFilmReviews,
   checkAuth,
   login,
   logout

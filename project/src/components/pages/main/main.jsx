@@ -1,41 +1,42 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import filmProp from '../../../props/film-prop';
+import {DATA_LOADING} from '../../../const';
+import {fetchFilms, fetchPromoFilm} from '../../../store/api-actions';
 
+import PromoFilm from '../../ui/promo-film/promo-film';
 import Catalog from '../../ui/catalog/catalog';
 import PageFooter from '../../ui/page-footer/page-footer';
-import Preview from '../../ui/film-card/preview/preview';
-import Description from '../../ui/film-card/description/description';
-import Poster from '../../ui/film-card/poster/poster';
+import PageLoading from '../../ui/loading/page-loading/page-loading';
 
-function Main({
-  promoFilm: {id, name, posterImage, backgroundImage, genre, released},
-}) {
+function Main({loadFilms, loadPromoFilm}) {
+  const [dataLoading, setDataLoading] = useState(DATA_LOADING);
+
+  const checkDataLoading = (isError = false) => {
+    setDataLoading({isLoading: isError, isError});
+  };
+
+  useEffect(() => {
+    Promise
+      .all([
+        loadFilms(),
+        loadPromoFilm(),
+      ])
+      .then(() => checkDataLoading())
+      .catch(() => checkDataLoading(true));
+
+    return () => setDataLoading(DATA_LOADING);
+  }, [loadFilms, loadPromoFilm]);
+
+  if (dataLoading.isLoading) {
+    return <PageLoading {...dataLoading} />;
+  }
+
   return (
     <>
       <section className="film-card">
-        <Preview
-          id={id}
-          image={backgroundImage}
-          name={name}
-        />
-
-        <div className="film-card__wrap">
-          <div className="film-card__info">
-            <Poster
-              poster={posterImage}
-              name={name}
-            />
-
-            <Description
-              id={id}
-              name={name}
-              genre={genre}
-              released={released}
-            />
-          </div>
-        </div>
+        <PromoFilm />
       </section>
 
       <div className="page-content">
@@ -51,13 +52,19 @@ function Main({
   );
 }
 
-const mapStateToProps = ({promoFilm}) => ({
-  promoFilm,
+const mapDispatchToProps = (dispatch) => ({
+  loadFilms() {
+    return dispatch(fetchFilms());
+  },
+  loadPromoFilm() {
+    return dispatch(fetchPromoFilm());
+  },
 });
 
 Main.propTypes = {
-  promoFilm: filmProp.isRequired,
+  loadFilms: PropTypes.func.isRequired,
+  loadPromoFilm: PropTypes.func.isRequired,
 };
 
 export {Main};
-export default connect(mapStateToProps)(Main);
+export default connect(null, mapDispatchToProps)(Main);
