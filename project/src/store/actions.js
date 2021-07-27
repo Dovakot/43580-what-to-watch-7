@@ -10,7 +10,7 @@ const ActionType = {
   SHOW_FILMS: 'catalog/showFilms',
   REQUIRED_AUTHORIZATION: 'user/requiredAuthorization',
   LOGOUT: 'user/logout',
-  REDIRECT_TO_ROUTER: 'redirect',
+  REDIRECT_TO_ROUTE: 'redirect',
 };
 
 const ActionCreator = {
@@ -59,8 +59,8 @@ const ActionCreator = {
   logout: () => ({
     type: ActionType.LOGOUT,
   }),
-  redirect: (url) =>({
-    type: ActionType.REDIRECT_TO_ROUTER,
+  redirect: (url) => ({
+    type: ActionType.REDIRECT_TO_ROUTE,
     payload: url,
   }),
 };

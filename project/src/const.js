@@ -18,6 +18,7 @@ const ApiRoute = {
   FILM_PROMO: '/promo',
   LOGIN: '/login',
   LOGOUT: '/logout',
+  REVIEW: '/comments',
 };
 
 const DateFormat = {
@@ -65,6 +66,14 @@ const FilmInfo = {
   ],
 };
 
+const ReviewInfo = {
+  FIELD: 'comment',
+  MIN_CHAR: 50,
+  MAX_CHAR: 400,
+  DEFAULT_STARS: 3,
+  MAX_STARS: 10,
+};
+
 const AuthorizationStatus = {
   AUTH: 'AUTH',
   NO_AUTH: 'NO_AUTH',
@@ -80,5 +89,6 @@ export {
   PosterModifier,
   GenreInfo,
   FilmInfo,
+  ReviewInfo,
   AuthorizationStatus
 };

@@ -1,46 +1,45 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {generatePath} from 'react-router-dom';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
+import {AppRoute, ReviewInfo} from '../../../const';
 import {getStarsValue} from '../../../utils/film-util';
+import {sendFilmReview} from '../../../store/api-actions';
 
 import RatingStar from './rating-star/rating-star';
 import ReviewText from './review-text/review-text';
 import ReviewSubmitButton from './review-submit-button/review-submit-button';
+import Spinner from '../../ui/loading/spinner/spinner';
 
-const FieldName = {
-  RATING: 'rating',
-  REVIEW: 'review-text',
-};
-
-const RatingInfo = {
-  MIN_CHAR: 50,
-  MAX_CHAR: 400,
-  DEFAULT_STARS: 3,
-  MAX_STARS: 10,
+const FORM_VALUE = {
+  rating: ReviewInfo.DEFAULT_STARS,
+  comment: '',
 };
 
 const getRatingStar = (value) => (
   <RatingStar
     key={value}
     count={value}
-    currentRating={RatingInfo.DEFAULT_STARS}
+    currentRating={ReviewInfo.DEFAULT_STARS}
   />
 );
 
-function ReviewForm() {
+function ReviewForm({id, submitReview}) {
+  const pathToFilm = generatePath(AppRoute.FILM, {id});
+
+  const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setButtonState] = useState(true);
-  const [formValue, setFormValue] = useState({
-    [FieldName.RATING]: RatingInfo.DEFAULT_STARS,
-    [FieldName.REVIEW]: '',
-  });
+  const [formValue, setFormValue] = useState(FORM_VALUE);
 
   const checkReviewLength = (name, text) => {
-    if (name !== FieldName.REVIEW) {
+    if (name !== ReviewInfo.FIELD) {
       return;
     }
 
     const textLength = text.length;
-    const isDisabledSubmit = textLength < RatingInfo.MIN_CHAR
-      || textLength > RatingInfo.MAX_CHAR;
+    const isDisabledSubmit = textLength < ReviewInfo.MIN_CHAR
+      || textLength > ReviewInfo.MAX_CHAR;
 
     setButtonState(isDisabledSubmit);
   };
@@ -60,8 +59,17 @@ function ReviewForm() {
   const onFormSubmit = (evt) => {
     evt.preventDefault();
 
-    return formValue;
+    setIsLoading(true);
+
+    submitReview(id, pathToFilm, formValue)
+      .finally(() => setIsLoading(false));
   };
+
+  useEffect(() => () => {
+    setIsLoading(false);
+    setButtonState(true);
+    setFormValue(FORM_VALUE);
+  }, []);
 
   return (
     <form
@@ -70,9 +78,11 @@ function ReviewForm() {
       onChange={onFormChange}
       onSubmit={onFormSubmit}
     >
+      {isLoading && <Spinner />}
+
       <div className="rating">
         <div className="rating__stars">
-          {getStarsValue(RatingInfo.MAX_STARS).map(getRatingStar)}
+          {getStarsValue(ReviewInfo.MAX_STARS).map(getRatingStar)}
         </div>
       </div>
 
@@ -87,4 +97,16 @@ function ReviewForm() {
   );
 }
 
-export default ReviewForm;
+const mapDispatchToProps = (dispatch) => ({
+  submitReview(id, path, data) {
+    return dispatch(sendFilmReview(id, path, data));
+  },
+});
+
+ReviewForm.propTypes = {
+  id: PropTypes.number.isRequired,
+  submitReview: PropTypes.func.isRequired,
+};
+
+export {ReviewForm};
+export default connect(null, mapDispatchToProps)(ReviewForm);

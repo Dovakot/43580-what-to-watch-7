@@ -1,3 +1,5 @@
+import {toast} from 'react-toastify';
+
 import {ApiRoute, AppRoute, AuthorizationStatus} from '../const';
 import {ActionCreator} from '../store/actions';
 
@@ -26,12 +28,21 @@ const fetchFilmReviews = (id) => (dispatch, _getState, api) => (
     .then(({data}) => dispatch(ActionCreator.loadFilmReviews(data)))
 );
 
+const sendFilmReview = (id, path, data) => (dispatch, _getState, api) => (
+  api.post(`${ApiRoute.REVIEW}/${id}`, data)
+    .then(() => {
+      dispatch(ActionCreator.redirect(path));
+      toast.success('Film review posted');
+    })
+    .catch(() => toast.error('An error has occurred while processing your request'))
+);
+
 const checkAuth = () => (dispatch, _getState, api) => (
   api.get(ApiRoute.LOGIN)
     .then(({data}) => dispatch(
       ActionCreator.requireAuthorization(AuthorizationStatus.AUTH, false, data),
     ))
-    .catch(() => {})
+    .catch(() => toast.error('Connection authorization failure occurred'))
 );
 
 const login = ({email, password}) => (dispatch, _getState, api) => (
@@ -41,9 +52,9 @@ const login = ({email, password}) => (dispatch, _getState, api) => (
       dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH, false, data));
       dispatch(ActionCreator.redirect(AppRoute.ROOT));
     })
-    .catch(() => {
-      dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH, true));
-    })
+    .catch(() => dispatch(
+      ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH, true),
+    ))
 );
 
 const logout = () => (dispatch, _getState, api) => (
@@ -52,6 +63,7 @@ const logout = () => (dispatch, _getState, api) => (
       localStorage.removeItem('token');
       dispatch(ActionCreator.logout());
     })
+    .catch(() => toast.error('Failed to sign out of account'))
 );
 
 export {
@@ -60,6 +72,7 @@ export {
   fetchFilms,
   fetchSimilarFilms,
   fetchFilmReviews,
+  sendFilmReview,
   checkAuth,
   login,
   logout
