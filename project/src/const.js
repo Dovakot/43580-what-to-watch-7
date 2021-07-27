@@ -99,5 +99,5 @@ export {
   FilmInfo,
   ReviewInfo,
   AuthorizationStatus,
-  MessageText,
+  MessageText
 };
