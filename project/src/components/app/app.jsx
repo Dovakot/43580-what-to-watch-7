@@ -4,22 +4,21 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import browserHistory from '../../browser-history';
 
-import {AppRoute, PageType, AuthorizationStatus} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../const';
 
 import Main from '../pages/main/main';
 import SignIn from '../pages/sign-in/sign-in';
+import Film from '../pages/film/film';
+import AddReview from '../pages/add-review/add-review';
 import MyList from '../pages/my-list/my-list';
+import Player from '../pages/player/player';
 import NotFound from '../pages/not-found/not-found';
-import Pages from '../pages/pages';
-import PageLoading from '../ui/page-loading/page-loading';
-
+import Spinner from '../ui/loading/spinner/spinner';
 import PrivateRoute from '../private-route/private-route';
 
-function App({authorizationStatus, isLoading}) {
-  if (authorizationStatus === AuthorizationStatus.UNKNOWN || isLoading) {
-    return (
-      <PageLoading />
-    );
+function App({authorizationStatus}) {
+  if (authorizationStatus === AuthorizationStatus.UNKNOWN) {
+    return <Spinner />;
   }
 
   return (
@@ -34,11 +33,11 @@ function App({authorizationStatus, isLoading}) {
         </Route>
 
         <Route path={AppRoute.FILM} exact>
-          <Pages />
+          <Film />
         </Route>
 
         <PrivateRoute path={AppRoute.REVIEW} exact>
-          <Pages type={PageType.REVIEW} />
+          <AddReview />
         </PrivateRoute>
 
         <PrivateRoute path={AppRoute.MY_LIST} exact>
@@ -46,7 +45,7 @@ function App({authorizationStatus, isLoading}) {
         </PrivateRoute>
 
         <Route path={AppRoute.PLAYER} exact>
-          <Pages type={PageType.PLAYER} />
+          <Player />
         </Route>
 
         <Route>
@@ -57,14 +56,12 @@ function App({authorizationStatus, isLoading}) {
   );
 }
 
-const mapStateToProps = ({isLoading, authorizationStatus}) => ({
+const mapStateToProps = ({authorizationStatus}) => ({
   authorizationStatus,
-  isLoading,
 });
 
 App.propTypes = {
   authorizationStatus: PropTypes.string.isRequired,
-  isLoading: PropTypes.bool.isRequired,
 };
 
 export {App};

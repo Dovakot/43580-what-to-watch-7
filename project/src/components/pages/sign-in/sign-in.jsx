@@ -11,7 +11,7 @@ import PageFooter from '../../ui/page-footer/page-footer';
 import PageTitle from '../../ui/page-title/page-title';
 import LoginForm from '../../ui/login-form/login-form';
 import FormField from '../../ui/login-form/form-field/form-field';
-import PageLoading from '../../ui/page-loading/page-loading';
+import Spinner from '../../ui/loading/spinner/spinner';
 
 function SignIn({authorizationStatus}) {
   if (isCheckAuth(authorizationStatus)) {
@@ -22,7 +22,7 @@ function SignIn({authorizationStatus}) {
 
   return (
     <div className="user-page">
-      {isAuthorizationProgress(authorizationStatus) && <PageLoading />}
+      {isAuthorizationProgress(authorizationStatus) && <Spinner />}
 
       <header className="page-header user-page__head">
         <Logo />

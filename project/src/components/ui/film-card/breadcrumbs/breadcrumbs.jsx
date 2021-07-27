@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link, generatePath} from 'react-router-dom';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 import {AppRoute} from '../../../../const';
 
@@ -23,9 +24,15 @@ function Breadcrumbs({id, name}) {
   );
 }
 
+const mapStateToProps = ({film}) => ({
+  id: film.id,
+  name: film.name,
+});
+
 Breadcrumbs.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
 };
 
-export default Breadcrumbs;
+export {Breadcrumbs};
+export default connect(mapStateToProps)(Breadcrumbs);

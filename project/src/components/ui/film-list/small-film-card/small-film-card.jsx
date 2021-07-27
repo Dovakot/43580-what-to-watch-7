@@ -1,21 +1,30 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {Link, generatePath} from 'react-router-dom';
+import {useHistory, generatePath} from 'react-router-dom';
 
 import {AppRoute} from '../../../../const';
 
 import VideoPreview from './video-preview/video-preview';
 
 function SmallFilmCard({id, name, previewImage, videoLink}) {
+  const history = useHistory();
   const pathToFilm = generatePath(AppRoute.FILM, {id});
   const [isActive, setIsActive] = useState(false);
 
   const onMouseEnter = () => setIsActive(true);
   const onMouseLeave = () => setIsActive(false);
 
+  const onCardClick = (evt) => {
+    evt.preventDefault();
+
+    history.push(pathToFilm);
+  };
+
   return (
     <article
       className="small-film-card catalog__films-card"
+      style={{cursor: 'pointer'}}
+      onClick={onCardClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
@@ -29,9 +38,7 @@ function SmallFilmCard({id, name, previewImage, videoLink}) {
       </div>
 
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={pathToFilm}>
-          {name}
-        </Link>
+        <span className="small-film-card__link">{name}</span>
       </h3>
     </article>
   );
