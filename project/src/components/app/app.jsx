@@ -3,6 +3,9 @@ import {Switch, Route, Router as BrowserRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import browserHistory from '../../browser-history';
+import {ToastContainer} from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 import {AppRoute, AuthorizationStatus} from '../../const';
 
@@ -22,37 +25,41 @@ function App({authorizationStatus}) {
   }
 
   return (
-    <BrowserRouter history={browserHistory}>
-      <Switch>
-        <Route path={AppRoute.ROOT} exact>
-          <Main />
-        </Route>
+    <>
+      <BrowserRouter history={browserHistory}>
+        <Switch>
+          <Route path={AppRoute.ROOT} exact>
+            <Main />
+          </Route>
 
-        <Route path={AppRoute.LOGIN} exact>
-          <SignIn />
-        </Route>
+          <Route path={AppRoute.LOGIN} exact>
+            <SignIn />
+          </Route>
 
-        <Route path={AppRoute.FILM} exact>
-          <Film />
-        </Route>
+          <Route path={AppRoute.FILM} exact>
+            <Film />
+          </Route>
 
-        <PrivateRoute path={AppRoute.REVIEW} exact>
-          <AddReview />
-        </PrivateRoute>
+          <PrivateRoute path={AppRoute.REVIEW} exact>
+            <AddReview />
+          </PrivateRoute>
 
-        <PrivateRoute path={AppRoute.MY_LIST} exact>
-          <MyList />
-        </PrivateRoute>
+          <PrivateRoute path={AppRoute.MY_LIST} exact>
+            <MyList />
+          </PrivateRoute>
 
-        <Route path={AppRoute.PLAYER} exact>
-          <Player />
-        </Route>
+          <Route path={AppRoute.PLAYER} exact>
+            <Player />
+          </Route>
 
-        <Route>
-          <NotFound />
-        </Route>
-      </Switch>
-    </BrowserRouter>
+          <Route>
+            <NotFound />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+
+      <ToastContainer />
+    </>
   );
 }
 
