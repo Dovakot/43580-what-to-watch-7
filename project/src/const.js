@@ -81,6 +81,14 @@ const AuthorizationStatus = {
   PROCESS: 'PROCESS',
 };
 
+const MessageText = {
+  REVIEW_POSTED: 'Film review posted',
+  REQUEST_FAILED: 'An error has occurred while processing your request',
+  AUTH_ERROR: 'Connection authorization failure occurred',
+  FAILED_SIGNOUT: 'Failed to sign out of account',
+  LOADING_ERROR: 'Loading error please reload the page',
+};
+
 export {
   DATA_LOADING,
   AppRoute,
@@ -90,5 +98,6 @@ export {
   GenreInfo,
   FilmInfo,
   ReviewInfo,
-  AuthorizationStatus
+  AuthorizationStatus,
+  MessageText,
 };

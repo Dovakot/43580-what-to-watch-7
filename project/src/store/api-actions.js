@@ -1,6 +1,6 @@
 import {toast} from 'react-toastify';
 
-import {ApiRoute, AppRoute, AuthorizationStatus} from '../const';
+import {ApiRoute, AppRoute, AuthorizationStatus, MessageText} from '../const';
 import {ActionCreator} from '../store/actions';
 
 const fetchFilm = (id) => (dispatch, _getState, api) => (
@@ -32,9 +32,9 @@ const sendFilmReview = (id, path, data) => (dispatch, _getState, api) => (
   api.post(`${ApiRoute.REVIEW}/${id}`, data)
     .then(() => {
       dispatch(ActionCreator.redirect(path));
-      toast.success('Film review posted');
+      toast.success(MessageText.REVIEW_POSTED);
     })
-    .catch(() => toast.error('An error has occurred while processing your request'))
+    .catch(() => toast.error(MessageText.REQUEST_FAILED))
 );
 
 const checkAuth = () => (dispatch, _getState, api) => (
@@ -42,7 +42,7 @@ const checkAuth = () => (dispatch, _getState, api) => (
     .then(({data}) => dispatch(
       ActionCreator.requireAuthorization(AuthorizationStatus.AUTH, false, data),
     ))
-    .catch(() => toast.error('Connection authorization failure occurred'))
+    .catch(() => toast.error(MessageText.AUTH_ERROR))
 );
 
 const login = ({email, password}) => (dispatch, _getState, api) => (
@@ -63,7 +63,7 @@ const logout = () => (dispatch, _getState, api) => (
       localStorage.removeItem('token');
       dispatch(ActionCreator.logout());
     })
-    .catch(() => toast.error('Failed to sign out of account'))
+    .catch(() => toast.error(MessageText.FAILED_SIGNOUT))
 );
 
 export {
