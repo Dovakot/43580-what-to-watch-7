@@ -42,7 +42,7 @@ const checkAuth = () => (dispatch, _getState, api) => (
     .then(({data}) => dispatch(
       ActionCreator.requireAuthorization(AuthorizationStatus.AUTH, false, data),
     ))
-    .catch(() => toast.error(MessageText.AUTH_ERROR))
+    .catch(() => !AuthorizationStatus.NO_AUTH && toast.error(MessageText.AUTH_ERROR))
 );
 
 const login = ({email, password}) => (dispatch, _getState, api) => (
