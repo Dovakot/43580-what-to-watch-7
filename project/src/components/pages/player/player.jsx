@@ -16,13 +16,13 @@ function Player({name, videoLink, backgroundImage, runTime, loadFilm}) {
   const {id} = useParams();
   const [dataLoading, setDataLoading] = useState(DATA_LOADING);
 
-  const checkDataLoading = (isError = false) => {
+  const checkDataLoading = (isError) => {
     setDataLoading({isLoading: isError, isError});
   };
 
   useEffect(() => {
     loadFilm(+id)
-      .then(() => checkDataLoading())
+      .then(() => checkDataLoading(false))
       .catch(() => checkDataLoading(true));
 
     return () => setDataLoading(DATA_LOADING);
