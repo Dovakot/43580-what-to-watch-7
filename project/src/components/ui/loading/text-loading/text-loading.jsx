@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './text-loading.css';
+
 function TextLoading({isError}) {
   return (
-    <p>
+    <p className="text-loading">
       {isError
-        ? <span style={{color: 'red', fontSize: '13px'}}>Loading error</span>
+        ? <span className="text-loading__error">Loading error</span>
         : 'Loading...'}
     </p>
   );

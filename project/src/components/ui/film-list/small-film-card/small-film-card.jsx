@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {useHistory, generatePath} from 'react-router-dom';
 
-import {AppRoute} from '../../../../const';
+import './small-film-card.css';
 
+import {AppRoute} from '../../../../const';
 import VideoPreview from './video-preview/video-preview';
 
 function SmallFilmCard({id, name, previewImage, videoLink}) {
@@ -23,7 +24,6 @@ function SmallFilmCard({id, name, previewImage, videoLink}) {
   return (
     <article
       className="small-film-card catalog__films-card"
-      style={{cursor: 'pointer'}}
       onClick={onCardClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
