@@ -29,8 +29,11 @@ const DataLoadingDefault = {
 };
 
 function Film({similarFilms, loadFilm, loadSimilarFilms, loadFilmReviews}) {
-  const {id} = useParams();
+  const params = useParams();
   const [dataLoading, setDataLoading] = useState(DataLoadingDefault);
+
+  const id = +params.id;
+  const filteredSimilarFilms = filterById(similarFilms, id);
 
   const checkDataLoading = (key, isError = false) => {
     setDataLoading((prevValue) => ({
@@ -44,17 +47,15 @@ function Film({similarFilms, loadFilm, loadSimilarFilms, loadFilmReviews}) {
   };
 
   useEffect(() => {
-    const currentId = +id;
-
-    loadFilm(currentId)
+    loadFilm(id)
       .then(() => checkDataLoading('FILM'))
       .catch(() => checkDataLoading('FILM', true));
 
-    loadSimilarFilms(currentId)
+    loadSimilarFilms(id)
       .then(() => checkDataLoading('SIMILAR_FILMS'))
       .catch(() => checkDataLoading('SIMILAR_FILMS', true));
 
-    loadFilmReviews(currentId)
+    loadFilmReviews(id)
       .then(() => checkDataLoading('FILM_REVIEWS'))
       .catch(() => checkDataLoading('FILM_REVIEWS', true));
 
@@ -75,7 +76,7 @@ function Film({similarFilms, loadFilm, loadSimilarFilms, loadFilmReviews}) {
 
           {dataLoading.SIMILAR_FILMS.isLoading
             ? <TextLoading {...dataLoading.SIMILAR_FILMS} />
-            : <FilmList films={filterById(similarFilms, +id)} />}
+            : <FilmList films={filteredSimilarFilms} />}
         </section>
 
         <PageFooter />
