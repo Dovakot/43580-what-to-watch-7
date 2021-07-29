@@ -4,8 +4,8 @@ function ReviewText() {
   return (
     <textarea
       className="add-review__textarea"
-      name="review-text"
-      id="review-text"
+      name="comment"
+      id="comment"
       placeholder="Review text"
       defaultValue=""
     />

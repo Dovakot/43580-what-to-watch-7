@@ -3,68 +3,72 @@ import {Switch, Route, Router as BrowserRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import browserHistory from '../../browser-history';
+import {ToastContainer} from 'react-toastify';
 
-import {AppRoute, PageType, AuthorizationStatus} from '../../const';
+import 'react-toastify/dist/ReactToastify.css';
+
+import {AppRoute, AuthorizationStatus} from '../../const';
 
 import Main from '../pages/main/main';
 import SignIn from '../pages/sign-in/sign-in';
+import Film from '../pages/film/film';
+import AddReview from '../pages/add-review/add-review';
 import MyList from '../pages/my-list/my-list';
+import Player from '../pages/player/player';
 import NotFound from '../pages/not-found/not-found';
-import Pages from '../pages/pages';
-import PageLoading from '../ui/page-loading/page-loading';
-
+import Spinner from '../ui/loading/spinner/spinner';
 import PrivateRoute from '../private-route/private-route';
 
-function App({authorizationStatus, isLoading}) {
-  if (authorizationStatus === AuthorizationStatus.UNKNOWN || isLoading) {
-    return (
-      <PageLoading />
-    );
+function App({authorizationStatus}) {
+  if (authorizationStatus === AuthorizationStatus.UNKNOWN) {
+    return <Spinner />;
   }
 
   return (
-    <BrowserRouter history={browserHistory}>
-      <Switch>
-        <Route path={AppRoute.ROOT} exact>
-          <Main />
-        </Route>
+    <>
+      <BrowserRouter history={browserHistory}>
+        <Switch>
+          <Route path={AppRoute.ROOT} exact>
+            <Main />
+          </Route>
 
-        <Route path={AppRoute.LOGIN} exact>
-          <SignIn />
-        </Route>
+          <Route path={AppRoute.LOGIN} exact>
+            <SignIn />
+          </Route>
 
-        <Route path={AppRoute.FILM} exact>
-          <Pages />
-        </Route>
+          <Route path={AppRoute.FILM} exact>
+            <Film />
+          </Route>
 
-        <PrivateRoute path={AppRoute.REVIEW} exact>
-          <Pages type={PageType.REVIEW} />
-        </PrivateRoute>
+          <PrivateRoute path={AppRoute.REVIEW} exact>
+            <AddReview />
+          </PrivateRoute>
 
-        <PrivateRoute path={AppRoute.MY_LIST} exact>
-          <MyList />
-        </PrivateRoute>
+          <PrivateRoute path={AppRoute.MY_LIST} exact>
+            <MyList />
+          </PrivateRoute>
 
-        <Route path={AppRoute.PLAYER} exact>
-          <Pages type={PageType.PLAYER} />
-        </Route>
+          <Route path={AppRoute.PLAYER} exact>
+            <Player />
+          </Route>
 
-        <Route>
-          <NotFound />
-        </Route>
-      </Switch>
-    </BrowserRouter>
+          <Route>
+            <NotFound />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+
+      <ToastContainer />
+    </>
   );
 }
 
-const mapStateToProps = ({isLoading, authorizationStatus}) => ({
+const mapStateToProps = ({authorizationStatus}) => ({
   authorizationStatus,
-  isLoading,
 });
 
 App.propTypes = {
   authorizationStatus: PropTypes.string.isRequired,
-  isLoading: PropTypes.bool.isRequired,
 };
 
 export {App};

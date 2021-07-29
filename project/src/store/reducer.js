@@ -4,33 +4,51 @@ import {adaptToClientFilm, adaptToClientUser} from '../services/adapters';
 
 const initialState = {
   activeGenre: GenreInfo.DEFAULT,
+  film: {},
   promoFilm: {},
   films: [],
+  similarFilms: [],
+  filmReviews: [],
   user: {},
   authorizationStatus: AuthorizationStatus.UNKNOWN,
   isAuthorisationError: false,
   filmsCounter: FilmInfo.MAX_FILMS_PER_STEP,
-  isLoading: true,
-  isLoadingError: false,
+  isLoading: false,
+  errorText: '',
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ActionType.LOAD_FILMS:
+    case ActionType.LOAD_FILM:
       return {
         ...state,
-        films: action.payload.map((film) => adaptToClientFilm(film)),
+        film: adaptToClientFilm(action.payload),
       };
     case ActionType.LOAD_FILM_PROMO:
       return {
         ...state,
         promoFilm: adaptToClientFilm(action.payload),
       };
+    case ActionType.LOAD_FILMS:
+      return {
+        ...state,
+        films: action.payload.map((film) => adaptToClientFilm(film)),
+      };
+    case ActionType.LOAD_SIMILAR_FILMS:
+      return {
+        ...state,
+        similarFilms: action.payload.map((film) => adaptToClientFilm(film)),
+      };
+    case ActionType.LOAD_FILM_REVIEWS:
+      return {
+        ...state,
+        filmReviews: action.payload,
+      };
     case ActionType.LOAD_DATA:
       return {
         ...state,
         isLoading: action.isLoading,
-        isLoadingError: action.isLoadingError,
+        errorText: action.errorText || initialState.errorText,
       };
     case ActionType.CHANGE_GENRE:
       return {

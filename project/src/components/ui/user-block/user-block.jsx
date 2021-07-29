@@ -6,12 +6,12 @@ import {isCheckAuth, isAuthorizationProgress} from '../../../utils/utils';
 
 import UserInfo from './user-info/user-info';
 import LoginLink from './login-link/login-link';
-import PageLoading from '../page-loading/page-loading';
+import Spinner from '../loading/spinner/spinner';
 
 function UserBlock({authorizationStatus}) {
   return (
     <>
-      {isAuthorizationProgress(authorizationStatus) && <PageLoading />}
+      {isAuthorizationProgress(authorizationStatus) && <Spinner />}
       {isCheckAuth(authorizationStatus) ? <UserInfo /> : <LoginLink />}
     </>
   );

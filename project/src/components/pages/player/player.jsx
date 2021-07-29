@@ -1,14 +1,37 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {useParams} from 'react-router-dom';
 
-import {DateFormat} from '../../../const';
+import {DATA_LOADING, DateFormat} from '../../../const';
 import {getTime} from '../../../utils/date-util';
+import {fetchFilm} from '../../../store/api-actions';
 
 import ExitButton from '../../ui/player-controls/exit-button/exit-button';
 import PlayButton from '../../ui/player-controls/play-button/play-button';
 import FullScreenButton from '../../ui/player-controls/full-screen-button/full-screen-button';
+import PageLoading from '../../ui/loading/page-loading/page-loading';
 
-function Player({name, videoLink, backgroundImage, runTime}) {
+function Player({name, videoLink, backgroundImage, runTime, loadFilm}) {
+  const {id} = useParams();
+  const [dataLoading, setDataLoading] = useState(DATA_LOADING);
+
+  const checkDataLoading = (isError) => {
+    setDataLoading({isLoading: isError, isError});
+  };
+
+  useEffect(() => {
+    loadFilm(+id)
+      .then(() => checkDataLoading(false))
+      .catch(() => checkDataLoading(true));
+
+    return () => setDataLoading(DATA_LOADING);
+  }, [id, loadFilm]);
+
+  if (dataLoading.isLoading) {
+    return <PageLoading {...dataLoading} />;
+  }
+
   return (
     <div className="player">
       <video
@@ -46,11 +69,26 @@ function Player({name, videoLink, backgroundImage, runTime}) {
   );
 }
 
+const mapStateToProps = ({film}) => ({
+  name: film.name,
+  videoLink: film.videoLink,
+  backgroundImage: film.backgroundImage,
+  runTime: film.runTime,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  loadFilm(id) {
+    return dispatch(fetchFilm(id));
+  },
+});
+
 Player.propTypes = {
-  name: PropTypes.string.isRequired,
-  videoLink: PropTypes.string.isRequired,
-  backgroundImage: PropTypes.string.isRequired,
-  runTime: PropTypes.number.isRequired,
+  name: PropTypes.string,
+  videoLink: PropTypes.string,
+  backgroundImage: PropTypes.string,
+  runTime: PropTypes.number,
+  loadFilm: PropTypes.func.isRequired,
 };
 
-export default Player;
+export {Player};
+export default connect(mapStateToProps, mapDispatchToProps)(Player);

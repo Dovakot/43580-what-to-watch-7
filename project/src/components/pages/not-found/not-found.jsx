@@ -12,9 +12,9 @@ function NotFound() {
       </header>
 
       <p>
-        К сожалению, запрашиваемая страница не найдена. Возможно, вы перешли
-        по ссылке, в которой была допущена ошибка, или ресурс был удален.
-        Попробуйте начать с <Link to={AppRoute.ROOT}>главной страницы</Link>.
+        We are sorry, the page you requested cannot be found.
+        The URL may be misspelled or the page you’re looking for is no longer available.
+        Return to the <Link to={AppRoute.ROOT}>homepage</Link>.
       </p>
     </div>
   );

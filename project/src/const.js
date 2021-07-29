@@ -1,3 +1,8 @@
+const DATA_LOADING = {
+  isLoading: true,
+  isError: false,
+};
+
 const AppRoute = {
   ROOT: '/',
   LOGIN: '/login',
@@ -5,6 +10,7 @@ const AppRoute = {
   REVIEW: '/films/:id/review',
   MY_LIST: '/mylist',
   PLAYER: '/player/:id',
+  NOT_FOUND: '/404',
 };
 
 const ApiRoute = {
@@ -12,11 +18,7 @@ const ApiRoute = {
   FILM_PROMO: '/promo',
   LOGIN: '/login',
   LOGOUT: '/logout',
-};
-
-const PageType = {
-  REVIEW: 'review',
-  PLAYER: 'player',
+  REVIEW: '/comments',
 };
 
 const DateFormat = {
@@ -37,7 +39,6 @@ const GenreInfo = {
 };
 
 const FilmInfo = {
-  MAX_FILM_COUNT: 4,
   MAX_ACTOR_COUNT: 4,
   MAX_FILMS_PER_STEP: 8,
   PLAY_DELAY_TIME: 1000,
@@ -65,6 +66,14 @@ const FilmInfo = {
   ],
 };
 
+const ReviewInfo = {
+  FIELD: 'comment',
+  MIN_CHAR: 50,
+  MAX_CHAR: 400,
+  DEFAULT_STARS: 3,
+  MAX_STARS: 10,
+};
+
 const AuthorizationStatus = {
   AUTH: 'AUTH',
   NO_AUTH: 'NO_AUTH',
@@ -72,13 +81,23 @@ const AuthorizationStatus = {
   PROCESS: 'PROCESS',
 };
 
+const MessageText = {
+  REVIEW_POSTED: 'Film review posted',
+  REQUEST_FAILED: 'An error has occurred while processing your request',
+  AUTH_ERROR: 'Connection authorization failure occurred',
+  FAILED_SIGNOUT: 'Failed to sign out of account',
+  LOADING_ERROR: 'Loading error please reload the page',
+};
+
 export {
+  DATA_LOADING,
   AppRoute,
   ApiRoute,
-  PageType,
   DateFormat,
   PosterModifier,
   GenreInfo,
   FilmInfo,
-  AuthorizationStatus
+  ReviewInfo,
+  AuthorizationStatus,
+  MessageText
 };

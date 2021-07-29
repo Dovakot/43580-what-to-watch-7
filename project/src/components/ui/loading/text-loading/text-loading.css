@@ -1,0 +1,8 @@
+.text-loading {
+  font-size: 13px;
+  text-align: center;
+}
+
+.text-loading__error {
+  color: red;
+}

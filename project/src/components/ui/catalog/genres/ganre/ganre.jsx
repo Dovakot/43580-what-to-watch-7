@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import cn from 'classnames';
 
+import {AppRoute, GenreInfo} from '../../../../../const';
 import {ActionCreator} from '../../../../../store/actions';
-import {AppRoute} from '../../../../../const';
 import filmProp from '../../../../../props/film-prop';
 
 function Genre({genre, films, isActive, onActiveGenreChange}) {
@@ -18,6 +18,11 @@ function Genre({genre, films, isActive, onActiveGenreChange}) {
 
     return isActive && onActiveGenreChange(genre, films);
   };
+
+  useEffect(
+    () => onActiveGenreChange(GenreInfo.DEFAULT, films),
+    [onActiveGenreChange, films],
+  );
 
   return (
     <li className={itemClass}>

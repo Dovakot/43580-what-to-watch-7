@@ -1,28 +1,43 @@
 const ActionType = {
-  LOAD_FILMS: 'data/loadFilms',
+  LOAD_FILM: 'data/loadFilm',
   LOAD_FILM_PROMO: 'data/loadFilmPromo',
+  LOAD_FILMS: 'data/loadFilms',
+  LOAD_SIMILAR_FILMS: 'data/loadSimilarFilms',
+  LOAD_FILM_REVIEWS: 'data/loadFilmReviews',
   LOAD_DATA: 'data/loadData',
   CHANGE_GENRE: 'catalog/changeGenre',
   GET_FILMS_BY_GENRE: 'catalog/getFilmsByGenre',
   SHOW_FILMS: 'catalog/showFilms',
   REQUIRED_AUTHORIZATION: 'user/requiredAuthorization',
   LOGOUT: 'user/logout',
-  REDIRECT_TO_ROUTER: 'redirect',
+  REDIRECT_TO_ROUTE: 'redirect',
 };
 
 const ActionCreator = {
-  loadFilms: (films) => ({
-    type: ActionType.LOAD_FILMS,
-    payload : films,
+  loadFilm: (film) => ({
+    type: ActionType.LOAD_FILM,
+    payload : film,
   }),
   loadFilmPromo: (film) => ({
     type: ActionType.LOAD_FILM_PROMO,
     payload : film,
   }),
-  loadData: (isLoadingError) => ({
+  loadFilms: (films) => ({
+    type: ActionType.LOAD_FILMS,
+    payload : films,
+  }),
+  loadSimilarFilms: (films) => ({
+    type: ActionType.LOAD_SIMILAR_FILMS,
+    payload : films,
+  }),
+  loadFilmReviews: (reviews) => ({
+    type: ActionType.LOAD_FILM_REVIEWS,
+    payload : reviews,
+  }),
+  loadData: (isLoading, errorText) => ({
     type: ActionType.LOAD_DATA,
-    isLoading: isLoadingError,
-    isLoadingError,
+    isLoading,
+    errorText,
   }),
   changeGenre: (genre) => ({
     type: ActionType.CHANGE_GENRE,
@@ -44,8 +59,8 @@ const ActionCreator = {
   logout: () => ({
     type: ActionType.LOGOUT,
   }),
-  redirect: (url) =>({
-    type: ActionType.REDIRECT_TO_ROUTER,
+  redirect: (url) => ({
+    type: ActionType.REDIRECT_TO_ROUTE,
     payload: url,
   }),
 };

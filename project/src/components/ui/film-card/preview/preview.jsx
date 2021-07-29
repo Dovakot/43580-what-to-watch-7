@@ -1,43 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
-import Breadcrumbs from '../breadcrumbs/breadcrumbs';
-import Logo from '../../logo/logo';
-import UserBlock from '../../user-block/user-block';
-
-function Preview({id, name, image, isReview}) {
-  const headerClass = cn('page-header', {
-    'film-card__head': !isReview,
-  });
-
+function Preview({name, image, bgColor}) {
   return (
-    <>
-      <div className="film-card__bg">
-        <img
-          src={image}
-          alt={name}
-        />
-      </div>
-
-      <h1 className="visually-hidden">WTW</h1>
-
-      <header className={headerClass}>
-        <Logo />
-
-        {isReview && <Breadcrumbs name={name} id={id} />}
-
-        <UserBlock />
-      </header>
-    </>
+    <div className="film-card__bg" style={{backgroundColor: bgColor}}>
+      <img
+        src={image}
+        alt={name}
+      />
+    </div>
   );
 }
 
 Preview.propTypes = {
-  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
-  isReview: PropTypes.bool,
+  bgColor: PropTypes.string.isRequired,
 };
 
 export default Preview;

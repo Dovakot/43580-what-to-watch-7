@@ -1,9 +1,15 @@
 import axios from 'axios';
 
+import {AppRoute} from '../const';
+import browserHistory from '../browser-history';
+
 const BACKEND_URL = 'https://7.react.pages.academy/wtw';
 const TIMEOUT = 5000;
 
-const UNAUTHORIZED_STATUS = 401;
+const ResponseCode = {
+  UNAUTHORIZED: 401,
+  NOT_FOUND: 404,
+};
 
 const token = localStorage.getItem('token') ?? '';
 
@@ -20,9 +26,12 @@ const createApi = (onUnauthorized) => {
 
   const onFail = (err) => {
     const {response} = err;
+    const {status} = response;
 
-    if (response.status === UNAUTHORIZED_STATUS) {
+    if (status === ResponseCode.UNAUTHORIZED) {
       onUnauthorized();
+    } else if (status === ResponseCode.NOT_FOUND) {
+      browserHistory.push(AppRoute.NOT_FOUND);
     }
 
     throw err;

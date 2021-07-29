@@ -17,7 +17,9 @@ const getSmallFilmCard = ({id, name, previewImage, videoLink}) => (
 function FilmList({films}) {
   return (
     <div className="catalog__films-list">
-      {films.map(getSmallFilmCard)}
+      {films.length
+        ? films.map(getSmallFilmCard)
+        : <p style={{fontSize: '13px'}}>Movies not found</p>}
     </div>
   );
 }
