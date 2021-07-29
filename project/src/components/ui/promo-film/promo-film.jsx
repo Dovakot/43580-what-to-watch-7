@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 
 import filmProp from '../../../props/film-prop';
 
-import PageHeader from '../page-header/page-header';
 import Preview from '../film-card/preview/preview';
 import Description from '../film-card/description/description';
 import Poster from '../film-card/poster/poster';
@@ -18,8 +17,6 @@ function PromoFilm({
         name={name}
         bgColor={backgroundColor}
       />
-
-      <PageHeader />
 
       <div className="film-card__wrap">
         <div className="film-card__info">

@@ -2,41 +2,66 @@ import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {DATA_LOADING} from '../../../const';
 import {fetchFilms, fetchPromoFilm} from '../../../store/api-actions';
 
+import PageHeader from '../../ui/page-header/page-header';
 import PromoFilm from '../../ui/promo-film/promo-film';
 import Catalog from '../../ui/catalog/catalog';
 import PageFooter from '../../ui/page-footer/page-footer';
+import TextLoading from '../../ui/loading/text-loading/text-loading';
 import PageLoading from '../../ui/loading/page-loading/page-loading';
 
-function Main({loadFilms, loadPromoFilm}) {
-  const [dataLoading, setDataLoading] = useState(DATA_LOADING);
+const DataLoadingDefault = {
+  FILMS: {
+    isLoading: true,
+    isError: false,
+    textError: '',
+  },
+  PROMO_FILM: {
+    isLoading: true,
+    isError: false,
+    textError: 'Loading error promo film',
+  },
+};
 
-  const checkDataLoading = (isError = false) => {
-    setDataLoading({isLoading: isError, isError});
+function Main({loadFilms, loadPromoFilm}) {
+  const [dataLoading, setDataLoading] = useState(DataLoadingDefault);
+
+  const checkDataLoading = (key, isError = false) => {
+    setDataLoading((prevValue) => ({
+      ...prevValue,
+      [key]: {
+        ...prevValue[key],
+        isLoading: isError,
+        isError,
+      },
+    }));
   };
 
   useEffect(() => {
-    Promise
-      .all([
-        loadFilms(),
-        loadPromoFilm(),
-      ])
-      .then(() => checkDataLoading())
-      .catch(() => checkDataLoading(true));
+    loadFilms()
+      .then(() => checkDataLoading('FILMS'))
+      .catch(() => checkDataLoading('FILMS', true));
 
-    return () => setDataLoading(DATA_LOADING);
+    loadPromoFilm()
+      .then(() => checkDataLoading('PROMO_FILM'))
+      .catch(() => checkDataLoading('PROMO_FILM', true));
+
+    return () => setDataLoading(DataLoadingDefault);
   }, [loadFilms, loadPromoFilm]);
 
-  if (dataLoading.isLoading) {
-    return <PageLoading {...dataLoading} />;
+  if (dataLoading.FILMS.isLoading) {
+    return <PageLoading {...dataLoading.FILMS} />;
   }
 
   return (
     <>
       <section className="film-card">
-        <PromoFilm />
+        <PageHeader />
+
+        {dataLoading.PROMO_FILM.isLoading
+          ? <TextLoading {...dataLoading.PROMO_FILM} />
+          : <PromoFilm />}
       </section>
 
       <div className="page-content">

@@ -3,17 +3,23 @@ import PropTypes from 'prop-types';
 
 import './text-loading.css';
 
-function TextLoading({isError}) {
+const BootMessage = {
+  LOADING: 'Loading...',
+  ERROR: 'Loading error',
+};
+
+function TextLoading({textError, isError}) {
   return (
     <p className="text-loading">
       {isError
-        ? <span className="text-loading__error">Loading error</span>
-        : 'Loading...'}
+        ? <span className="text-loading__error">{textError || BootMessage.ERROR}</span>
+        : BootMessage.LOADING}
     </p>
   );
 }
 
 TextLoading.propTypes = {
+  textError: PropTypes.string,
   isError: PropTypes.bool.isRequired,
 };
 
