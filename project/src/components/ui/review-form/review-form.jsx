@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {generatePath} from 'react-router-dom';
-import {connect} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {AppRoute, ReviewInfo} from '../../../const';
 import {getStarsValue} from '../../../utils/film-util';
-import {sendFilmReview} from '../../../store/api-actions';
+import {sendFilmReview} from '../../../store/api-actions/api-review-actions/api-review-actions';
 
 import RatingStar from './rating-star/rating-star';
 import ReviewText from './review-text/review-text';
@@ -25,7 +25,8 @@ const getRatingStar = (value) => (
   />
 );
 
-function ReviewForm({id, submitReview}) {
+function ReviewForm({id}) {
+  const dispatch = useDispatch();
   const pathToFilm = generatePath(AppRoute.FILM, {id});
 
   const [isLoading, setIsLoading] = useState(false);
@@ -61,7 +62,7 @@ function ReviewForm({id, submitReview}) {
 
     setIsLoading(true);
 
-    submitReview(id, pathToFilm, formValue)
+    dispatch(sendFilmReview(id, pathToFilm, formValue))
       .finally(() => setIsLoading(false));
   };
 
@@ -97,16 +98,8 @@ function ReviewForm({id, submitReview}) {
   );
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  submitReview(id, path, data) {
-    return dispatch(sendFilmReview(id, path, data));
-  },
-});
-
 ReviewForm.propTypes = {
-  id: PropTypes.number.isRequired,
-  submitReview: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
-export {ReviewForm};
-export default connect(null, mapDispatchToProps)(ReviewForm);
+export default ReviewForm;

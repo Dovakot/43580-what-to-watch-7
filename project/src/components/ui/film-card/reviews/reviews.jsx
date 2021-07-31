@@ -1,13 +1,13 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import {useSelector} from 'react-redux';
 
-import reviewProp from '../../../../props/review-prop';
 import {getReviewColCount} from '../../../../utils/film-util';
+import {getReviews} from '../../../../store/reducers/review-data/selectors';
 
 import ReviewsCol from './reviews-col/reviews-col';
 
-function Reviews({filmReviews}) {
+function Reviews() {
+  const {filmReviews} = useSelector(getReviews);
   const {left, right} = getReviewColCount(filmReviews.length);
 
   return (
@@ -18,13 +18,4 @@ function Reviews({filmReviews}) {
   );
 }
 
-const mapStateToProps = ({filmReviews}) => ({
-  filmReviews,
-});
-
-Reviews.propTypes = {
-  filmReviews: PropTypes.arrayOf(reviewProp).isRequired,
-};
-
-export {Reviews};
-export default connect(mapStateToProps)(Reviews);
+export default Reviews;

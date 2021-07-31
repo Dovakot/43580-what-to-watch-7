@@ -1,9 +1,9 @@
 import {AuthorizationStatus} from '../const';
 
-const isAuthorizationProgress = (status) => status === AuthorizationStatus.PROCESS;
 const isCheckAuth = (status) => status === AuthorizationStatus.AUTH;
+const isUserGuest = (status) => status === AuthorizationStatus.UNKNOWN;
 
 export {
   isCheckAuth,
-  isAuthorizationProgress
+  isUserGuest
 };

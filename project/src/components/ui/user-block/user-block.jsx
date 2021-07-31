@@ -1,29 +1,22 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
 
-import {isCheckAuth, isAuthorizationProgress} from '../../../utils/utils';
+import {isCheckAuth} from '../../../utils/utils';
+import {getUser} from '../../../store/reducers/user-data/selectors';
 
 import UserInfo from './user-info/user-info';
 import LoginLink from './login-link/login-link';
 import Spinner from '../loading/spinner/spinner';
 
-function UserBlock({authorizationStatus}) {
+function UserBlock() {
+  const {authorizationStatus, isAuthorizationProcess} = useSelector(getUser);
+
   return (
     <>
-      {isAuthorizationProgress(authorizationStatus) && <Spinner />}
+      {isAuthorizationProcess && <Spinner />}
       {isCheckAuth(authorizationStatus) ? <UserInfo /> : <LoginLink />}
     </>
   );
 }
 
-const mapStateToProps = ({authorizationStatus}) => ({
-  authorizationStatus,
-});
-
-UserBlock.propTypes = {
-  authorizationStatus: PropTypes.string.isRequired,
-};
-
-export {UserBlock};
-export default connect(mapStateToProps)(UserBlock);
+export default UserBlock;

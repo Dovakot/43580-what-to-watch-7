@@ -1,8 +1,3 @@
-const DATA_LOADING = {
-  isLoading: true,
-  isError: false,
-};
-
 const AppRoute = {
   ROOT: '/',
   LOGIN: '/login',
@@ -15,7 +10,8 @@ const AppRoute = {
 
 const ApiRoute = {
   FILMS: '/films',
-  FILM_PROMO: '/promo',
+  PROMO_FILM: '/promo',
+  FAVORITE: '/favorite',
   LOGIN: '/login',
   LOGOUT: '/logout',
   REVIEW: '/comments',
@@ -78,19 +74,18 @@ const AuthorizationStatus = {
   AUTH: 'AUTH',
   NO_AUTH: 'NO_AUTH',
   UNKNOWN: 'UNKNOWN',
-  PROCESS: 'PROCESS',
 };
 
 const MessageText = {
   REVIEW_POSTED: 'Film review posted',
   REQUEST_FAILED: 'An error has occurred while processing your request',
   AUTH_ERROR: 'Connection authorization failure occurred',
+  AUTH_DATA_ERROR: 'We can’t recognize this email\nand password combination. Please try again.',
   FAILED_SIGNOUT: 'Failed to sign out of account',
   LOADING_ERROR: 'Loading error please reload the page',
 };
 
 export {
-  DATA_LOADING,
   AppRoute,
   ApiRoute,
   DateFormat,

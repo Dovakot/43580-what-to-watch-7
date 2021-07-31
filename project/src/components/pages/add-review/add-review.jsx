@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import React, {useEffect} from 'react';
 import {useParams} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
 
-import {DATA_LOADING, PosterModifier} from '../../../const';
-import {fetchFilm} from '../../../store/api-actions';
+import {PosterModifier} from '../../../const';
+import {fetchFilm} from '../../../store/api-actions/api-film-actions/api-film-actions';
+import {resetFilmData} from '../../../store/actions/film-actions/film-actions';
+import {getFilm} from '../../../store/reducers/film-data/selectors';
 
 import PageHeader from '../../ui/page-header/page-header';
 import Preview from '../../ui/film-card/preview/preview';
@@ -12,25 +13,22 @@ import Poster from '../../ui/film-card/poster/poster';
 import ReviewForm from '../../ui/review-form/review-form';
 import PageLoading from '../../ui/loading/page-loading/page-loading';
 
-function AddReview({name, posterImage, backgroundImage, backgroundColor, loadFilm}) {
+function AddReview() {
   const {id} = useParams();
-  const [dataLoading, setDataLoading] = useState(DATA_LOADING);
-
-  const checkDataLoading = (isError) => {
-    setDataLoading({isLoading: isError, isError});
-  };
+  const dispatch = useDispatch();
+  const film = useSelector(getFilm);
 
   useEffect(() => {
-    loadFilm(+id)
-      .then(() => checkDataLoading(false))
-      .catch(() => checkDataLoading(true));
+    dispatch(fetchFilm(id));
 
-    return () => setDataLoading(DATA_LOADING);
-  }, [id, loadFilm]);
+    return () => dispatch(resetFilmData());
+  }, [id, dispatch]);
 
-  if (dataLoading.isLoading) {
-    return <PageLoading {...dataLoading} />;
+  if (film.isLoading) {
+    return <PageLoading {...film} />;
   }
+
+  const {name, posterImage, backgroundImage, backgroundColor} = film.data;
 
   return (
     <section className="film-card film-card--full">
@@ -52,32 +50,10 @@ function AddReview({name, posterImage, backgroundImage, backgroundColor, loadFil
       </div>
 
       <div className="add-review">
-        <ReviewForm id={+id} />
+        <ReviewForm id={id} />
       </div>
     </section>
   );
 }
 
-const mapStateToProps = ({film}) => ({
-  name: film.name,
-  posterImage: film.posterImage,
-  backgroundImage: film.backgroundImage,
-  backgroundColor: film.backgroundColor,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  loadFilm(id) {
-    return dispatch(fetchFilm(id));
-  },
-});
-
-AddReview.propTypes = {
-  name: PropTypes.string,
-  posterImage: PropTypes.string,
-  backgroundImage: PropTypes.string,
-  backgroundColor: PropTypes.string,
-  loadFilm: PropTypes.func.isRequired,
-};
-
-export {AddReview};
-export default connect(mapStateToProps, mapDispatchToProps)(AddReview);
+export default AddReview;

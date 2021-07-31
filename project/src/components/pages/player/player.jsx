@@ -1,36 +1,34 @@
-import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import React, {useEffect} from 'react';
 import {useParams} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
 
-import {DATA_LOADING, DateFormat} from '../../../const';
+import {DateFormat} from '../../../const';
 import {getTime} from '../../../utils/date-util';
-import {fetchFilm} from '../../../store/api-actions';
+import {fetchFilm} from '../../../store/api-actions/api-film-actions/api-film-actions';
+import {resetFilmData} from '../../../store/actions/film-actions/film-actions';
+import {getFilm} from '../../../store/reducers/film-data/selectors';
 
 import ExitButton from '../../ui/player-controls/exit-button/exit-button';
 import PlayButton from '../../ui/player-controls/play-button/play-button';
 import FullScreenButton from '../../ui/player-controls/full-screen-button/full-screen-button';
 import PageLoading from '../../ui/loading/page-loading/page-loading';
 
-function Player({name, videoLink, backgroundImage, runTime, loadFilm}) {
+function Player() {
   const {id} = useParams();
-  const [dataLoading, setDataLoading] = useState(DATA_LOADING);
-
-  const checkDataLoading = (isError) => {
-    setDataLoading({isLoading: isError, isError});
-  };
+  const dispatch = useDispatch();
+  const film = useSelector(getFilm);
 
   useEffect(() => {
-    loadFilm(+id)
-      .then(() => checkDataLoading(false))
-      .catch(() => checkDataLoading(true));
+    dispatch(fetchFilm(id));
 
-    return () => setDataLoading(DATA_LOADING);
-  }, [id, loadFilm]);
+    return () => dispatch(resetFilmData());
+  }, [id, dispatch]);
 
-  if (dataLoading.isLoading) {
-    return <PageLoading {...dataLoading} />;
+  if (film.isLoading) {
+    return <PageLoading {...film} />;
   }
+
+  const {name, backgroundImage, videoLink, runTime} = film.data;
 
   return (
     <div className="player">
@@ -40,7 +38,7 @@ function Player({name, videoLink, backgroundImage, runTime, loadFilm}) {
         poster={backgroundImage}
       />
 
-      <ExitButton />
+      <ExitButton id={id} />
 
       <div className="player__controls">
         <div className="player__controls-row">
@@ -69,26 +67,4 @@ function Player({name, videoLink, backgroundImage, runTime, loadFilm}) {
   );
 }
 
-const mapStateToProps = ({film}) => ({
-  name: film.name,
-  videoLink: film.videoLink,
-  backgroundImage: film.backgroundImage,
-  runTime: film.runTime,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  loadFilm(id) {
-    return dispatch(fetchFilm(id));
-  },
-});
-
-Player.propTypes = {
-  name: PropTypes.string,
-  videoLink: PropTypes.string,
-  backgroundImage: PropTypes.string,
-  runTime: PropTypes.number,
-  loadFilm: PropTypes.func.isRequired,
-};
-
-export {Player};
-export default connect(mapStateToProps, mapDispatchToProps)(Player);
+export default Player;

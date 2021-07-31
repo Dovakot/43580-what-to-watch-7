@@ -1,0 +1,22 @@
+.btn--list:disabled {
+  overflow: hidden;
+}
+
+.btn--list:disabled {
+  transform: scale(1.1);
+  background: rgba(0, 0, 0, 0.26);
+  cursor: default;
+}
+
+.btn--list:disabled::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+
+  background-color: rgba(90, 90, 90, 0.6);
+  box-shadow: 0 0 12px 4px rgba(62, 62, 62, 0.9) inset;
+}

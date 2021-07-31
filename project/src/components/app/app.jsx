@@ -1,13 +1,14 @@
 import React from 'react';
 import {Switch, Route, Router as BrowserRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import {useSelector} from 'react-redux';
 import browserHistory from '../../browser-history';
 import {ToastContainer} from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute} from '../../const';
+import {isUserGuest} from '../../utils/utils';
+import {getUser} from '../../store/reducers/user-data/selectors';
 
 import Main from '../pages/main/main';
 import SignIn from '../pages/sign-in/sign-in';
@@ -19,8 +20,10 @@ import NotFound from '../pages/not-found/not-found';
 import Spinner from '../ui/loading/spinner/spinner';
 import PrivateRoute from '../private-route/private-route';
 
-function App({authorizationStatus}) {
-  if (authorizationStatus === AuthorizationStatus.UNKNOWN) {
+function App() {
+  const {authorizationStatus} = useSelector(getUser);
+
+  if (isUserGuest(authorizationStatus)) {
     return <Spinner />;
   }
 
@@ -63,13 +66,4 @@ function App({authorizationStatus}) {
   );
 }
 
-const mapStateToProps = ({authorizationStatus}) => ({
-  authorizationStatus,
-});
-
-App.propTypes = {
-  authorizationStatus: PropTypes.string.isRequired,
-};
-
-export {App};
-export default connect(mapStateToProps)(App);
+export default App;

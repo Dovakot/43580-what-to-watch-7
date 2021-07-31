@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
-import {fetchFilms, fetchPromoFilm} from '../../../store/api-actions';
+import {fetchFilms, fetchPromoFilm} from '../../../store/api-actions/api-film-actions/api-film-actions';
+import {resetMainPageData} from '../../../store/actions/film-actions/film-actions';
+import {getFilms, getFilm} from '../../../store/reducers/film-data/selectors';
 
 import PageHeader from '../../ui/page-header/page-header';
 import PromoFilm from '../../ui/promo-film/promo-film';
@@ -11,47 +12,20 @@ import PageFooter from '../../ui/page-footer/page-footer';
 import TextLoading from '../../ui/loading/text-loading/text-loading';
 import PageLoading from '../../ui/loading/page-loading/page-loading';
 
-const DataLoadingDefault = {
-  FILMS: {
-    isLoading: true,
-    isError: false,
-    textError: '',
-  },
-  PROMO_FILM: {
-    isLoading: true,
-    isError: false,
-    textError: 'Loading error promo film',
-  },
-};
-
-function Main({loadFilms, loadPromoFilm}) {
-  const [dataLoading, setDataLoading] = useState(DataLoadingDefault);
-
-  const checkDataLoading = (key, isError = false) => {
-    setDataLoading((prevValue) => ({
-      ...prevValue,
-      [key]: {
-        ...prevValue[key],
-        isLoading: isError,
-        isError,
-      },
-    }));
-  };
+function Main() {
+  const dispatch = useDispatch();
+  const films = useSelector(getFilms);
+  const promoFilm = useSelector(getFilm);
 
   useEffect(() => {
-    loadFilms()
-      .then(() => checkDataLoading('FILMS'))
-      .catch(() => checkDataLoading('FILMS', true));
+    dispatch(fetchFilms());
+    dispatch(fetchPromoFilm());
 
-    loadPromoFilm()
-      .then(() => checkDataLoading('PROMO_FILM'))
-      .catch(() => checkDataLoading('PROMO_FILM', true));
+    return () => dispatch(resetMainPageData());
+  }, [dispatch]);
 
-    return () => setDataLoading(DataLoadingDefault);
-  }, [loadFilms, loadPromoFilm]);
-
-  if (dataLoading.FILMS.isLoading) {
-    return <PageLoading {...dataLoading.FILMS} />;
+  if (films.isLoading) {
+    return <PageLoading {...films} />;
   }
 
   return (
@@ -59,8 +33,8 @@ function Main({loadFilms, loadPromoFilm}) {
       <section className="film-card">
         <PageHeader />
 
-        {dataLoading.PROMO_FILM.isLoading
-          ? <TextLoading {...dataLoading.PROMO_FILM} />
+        {promoFilm.isLoading
+          ? <TextLoading {...promoFilm} />
           : <PromoFilm />}
       </section>
 
@@ -77,19 +51,4 @@ function Main({loadFilms, loadPromoFilm}) {
   );
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  loadFilms() {
-    return dispatch(fetchFilms());
-  },
-  loadPromoFilm() {
-    return dispatch(fetchPromoFilm());
-  },
-});
-
-Main.propTypes = {
-  loadFilms: PropTypes.func.isRequired,
-  loadPromoFilm: PropTypes.func.isRequired,
-};
-
-export {Main};
-export default connect(null, mapDispatchToProps)(Main);
+export default Main;

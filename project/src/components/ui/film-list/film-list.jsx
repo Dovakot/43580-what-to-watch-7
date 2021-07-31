@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import filmProp from '../../../props/film-prop';
 import SmallFilmCard from './small-film-card/small-film-card';
 
-const getSmallFilmCard = ({id, name, previewImage, videoLink}) => (
+const getSmallFilmCard = ({id, name, previewImage, previewVideoLink}) => (
   <SmallFilmCard
     key={id}
     id={id}
     name={name}
     previewImage={previewImage}
-    videoLink={videoLink}
+    videoLink={previewVideoLink}
   />
 );
 

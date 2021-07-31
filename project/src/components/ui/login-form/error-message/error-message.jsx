@@ -1,11 +1,12 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 
+import {MessageText} from '../../../../const';
 import {formValidateProp} from '../../../../props/user-prop';
-import ErrorText from './error-text/error-text';
+import {getUser} from '../../../../store/reducers/user-data/selectors';
 
-const DEFAULT_ERROR = 'We can’t recognize this email\nand password combination. Please try again.';
+import ErrorText from './error-text/error-text';
 
 const getErrorText = ({message}) => (
   <ErrorText
@@ -14,22 +15,18 @@ const getErrorText = ({message}) => (
   />
 );
 
-function ErrorMessage({messages, isAuthorisationError}) {
+function ErrorMessage({messages}) {
+  const {isAuthorizationError} = useSelector(getUser);
+
   return (
     <div className="sign-in__message">
-      {isAuthorisationError ? DEFAULT_ERROR : messages.map(getErrorText)}
+      {isAuthorizationError ? MessageText.AUTH_DATA_ERROR : messages.map(getErrorText)}
     </div>
   );
 }
 
-const mapStateToProps = ({isAuthorisationError}) => ({
-  isAuthorisationError,
-});
-
 ErrorMessage.propTypes = {
   messages: PropTypes.arrayOf(formValidateProp),
-  isAuthorisationError: PropTypes.bool.isRequired,
 };
 
-export {ErrorMessage};
-export default connect(mapStateToProps)(ErrorMessage);
+export default ErrorMessage;

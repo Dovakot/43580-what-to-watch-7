@@ -1,13 +1,17 @@
 import React from 'react';
-import {useHistory} from 'react-router-dom';
+import {useHistory, generatePath} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-function ExitButton() {
+import {AppRoute} from '../../../../const';
+
+function ExitButton({id}) {
   const history = useHistory();
+  const linkBack = generatePath(AppRoute.FILM, {id});
 
   const onButtonClick = (evt) => {
     evt.preventDefault();
 
-    history.goBack();
+    history.push(linkBack);
   };
 
   return (
@@ -20,5 +24,9 @@ function ExitButton() {
     </button>
   );
 }
+
+ExitButton.propTypes = {
+  id: PropTypes.string.isRequired,
+};
 
 export default ExitButton;

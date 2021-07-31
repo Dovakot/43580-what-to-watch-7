@@ -1,39 +1,29 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
 
-import {getGenresFromFilm, filterByGenre} from '../../../utils/film-util';
-import filmProp from '../../../props/film-prop';
+import {getGenresFromFilm, filterByGenre, isMoreButton} from '../../../utils/film-util';
+import {getFilms, getActiveGenre, getFilmsCounter} from '../../../store/reducers/film-data/selectors';
 
 import Genres from './genres/genres';
 import MoreButton from './more-button/more-button';
 import FilmList from '../../ui/film-list/film-list';
 
-function Catalog({films, activeGenre, filmsCounter}) {
-  const filteredFilms = filterByGenre(films, activeGenre);
+function Catalog() {
+  const films = useSelector(getFilms).data;
+  const activeGenre = useSelector(getActiveGenre);
+  const filmsCounter = useSelector(getFilmsCounter);
+
+  const filteredFilms = filterByGenre(films, activeGenre).slice(0, filmsCounter);
+  const genres = getGenresFromFilm(films);
 
   return (
     <>
-      <Genres genres={getGenresFromFilm(films)} />
+      <Genres genres={genres} />
+      <FilmList films={filteredFilms} />
 
-      <FilmList films={filteredFilms.slice(0, filmsCounter)} />
-
-      {filmsCounter <= filteredFilms.length && <MoreButton />}
+      {isMoreButton(filmsCounter, filteredFilms) && <MoreButton />}
     </>
   );
 }
 
-const mapStateToProps = ({films, activeGenre, filmsCounter}) => ({
-  films,
-  activeGenre,
-  filmsCounter,
-});
-
-Catalog.propTypes = {
-  films: PropTypes.arrayOf(filmProp).isRequired,
-  activeGenre: PropTypes.string.isRequired,
-  filmsCounter: PropTypes.number.isRequired,
-};
-
-export {Catalog};
-export default connect(mapStateToProps)(Catalog);
+export default Catalog;
