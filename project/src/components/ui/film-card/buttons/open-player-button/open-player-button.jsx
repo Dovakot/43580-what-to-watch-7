@@ -2,7 +2,8 @@ import React from 'react';
 import {useHistory, generatePath} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import {AppRoute} from '../../../../../const';
+import {AppRoute, IconInfo} from '../../../../../const';
+import SvgIcon from '../../../svg-icon/svg-icon';
 
 function OpenPlayerButton({id}) {
   const history = useHistory();
@@ -20,9 +21,7 @@ function OpenPlayerButton({id}) {
       type="button"
       onClick={onPlayButtonClick}
     >
-      <svg viewBox="0 0 19 19" width={19} height={19}>
-        <use xlinkHref="#play-s" />
-      </svg>
+      <SvgIcon icon={IconInfo.PLAY} />
       <span>Play</span>
     </button>
   );

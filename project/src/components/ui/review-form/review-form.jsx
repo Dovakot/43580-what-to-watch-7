@@ -33,6 +33,12 @@ function ReviewForm({id}) {
   const [isDisabled, setButtonState] = useState(true);
   const [formValue, setFormValue] = useState(FORM_VALUE);
 
+  useEffect(() => () => {
+    setIsLoading(false);
+    setButtonState(true);
+    setFormValue(FORM_VALUE);
+  }, []);
+
   const checkReviewLength = (name, text) => {
     if (name !== ReviewInfo.FIELD) {
       return;
@@ -65,12 +71,6 @@ function ReviewForm({id}) {
     dispatch(sendFilmReview(id, pathToFilm, formValue))
       .finally(() => setIsLoading(false));
   };
-
-  useEffect(() => () => {
-    setIsLoading(false);
-    setButtonState(true);
-    setFormValue(FORM_VALUE);
-  }, []);
 
   return (
     <form

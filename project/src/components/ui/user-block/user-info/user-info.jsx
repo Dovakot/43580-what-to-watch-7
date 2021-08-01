@@ -4,7 +4,7 @@ import {useHistory} from 'react-router-dom';
 
 import {AppRoute} from '../../../../const';
 import {logoutAccount} from '../../../../store/api-actions/api-user-actions/api-user-actions';
-import {authorizationProcess} from '../../../../store/actions/user-actions/user-actions';
+import {setAuthorizationProcess} from '../../../../store/actions/user-actions/user-actions';
 import {getUser} from '../../../../store/reducers/user-data/selectors';
 
 const AVATAR_DEFAULT = 'img/avatar.jpg';
@@ -23,7 +23,7 @@ function UserInfo() {
   const onSignOutClick = (evt) => {
     evt.preventDefault();
 
-    dispatch(authorizationProcess(true));
+    dispatch(setAuthorizationProcess(true));
     dispatch(logoutAccount());
   };
 

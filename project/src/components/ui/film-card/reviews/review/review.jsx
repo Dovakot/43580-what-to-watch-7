@@ -7,6 +7,9 @@ import reviewProp from '../../../../../props/review-prop';
 function Review({
   review: {comment, user, date, rating},
 }) {
+  const machineDate = getFormattedDate(date, DateFormat.MACHINE_DATE);
+  const reviewDate = getFormattedDate(date, DateFormat.DATE);
+
   return (
     <div className="review">
       <blockquote className="review__quote">
@@ -19,9 +22,9 @@ function Review({
             {user.name}
           </cite>
           <time className="review__date"
-            dateTime={getFormattedDate(date, DateFormat.MACHINE_DATE)}
+            dateTime={machineDate}
           >
-            {getFormattedDate(date, DateFormat.DATE)}
+            {reviewDate}
           </time>
         </footer>
       </blockquote>

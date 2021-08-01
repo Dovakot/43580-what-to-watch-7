@@ -19,7 +19,7 @@ function FilmList({films}) {
     <div className="catalog__films-list">
       {films.length
         ? films.map(getSmallFilmCard)
-        : <p style={{fontSize: '13px'}}>Movies not found</p>}
+        : <small>Movies not found</small>}
     </div>
   );
 }

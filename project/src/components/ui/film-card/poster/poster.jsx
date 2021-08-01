@@ -8,12 +8,13 @@ function Poster({modifier, name, poster}) {
   const posterClass = cn('film-card__poster', {
     [`film-card__poster--${modifier}`]: modifier,
   });
+  const alt = setPosterAlt(name);
 
   return (
     <div className={posterClass}>
       <img
         src={poster}
-        alt={setPosterAlt(name)}
+        alt={alt}
         width={218}
         height={327}
       />

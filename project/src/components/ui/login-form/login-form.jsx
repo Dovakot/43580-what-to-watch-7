@@ -1,14 +1,13 @@
-import React, {Children, cloneElement, useState} from 'react';
+import React, {Children, cloneElement, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {authorizationError, authorizationProcess} from '../../../store/actions/user-actions/user-actions';
+import {EMAIL_FORMAT} from '../../../const';
+import {setAuthorizationError, setAuthorizationProcess} from '../../../store/actions/user-actions/user-actions';
 import {login} from '../../../store/api-actions/api-user-actions/api-user-actions';
 import {getUser} from '../../../store/reducers/user-data/selectors';
 
 import ErrorMessage from './error-message/error-message';
-
-const EMAIL_FORMAT = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i;
 
 const VALIDATION_RULES = {
   'user-email': {
@@ -25,15 +24,22 @@ const VALIDATION_RULES = {
 
 const VALIDATION_FIELDS = Object.keys(VALIDATION_RULES);
 
+const FORM_VALUE_DEFAULT = {
+  email: '',
+  password: '',
+};
+
 function LoginForm({children}) {
   const dispatch = useDispatch();
   const {isAuthorizationError} = useSelector(getUser);
 
   const [validationRules, setValidationRules] = useState(VALIDATION_RULES);
-  const [formValue, setFormValue] = useState({
-    email: '',
-    password: '',
-  });
+  const [formValue, setFormValue] = useState(FORM_VALUE_DEFAULT);
+
+  useEffect(() => () => {
+    setValidationRules(VALIDATION_RULES);
+    setFormValue(FORM_VALUE_DEFAULT);
+  }, []);
 
   const errorText = Object.values(validationRules).filter(({isValid}) => !isValid);
 
@@ -72,7 +78,7 @@ function LoginForm({children}) {
 
   const onFormChange = ({target}) => {
     if (isAuthorizationError) {
-      dispatch(authorizationError(false));
+      dispatch(setAuthorizationError(false));
     }
 
     validateField(target);
@@ -87,7 +93,7 @@ function LoginForm({children}) {
     evt.preventDefault();
 
     if (validateForm(evt)) {
-      dispatch(authorizationProcess(true));
+      dispatch(setAuthorizationProcess(true));
       dispatch(login(formValue));
     }
   };

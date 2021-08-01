@@ -5,6 +5,9 @@ import {DateFormat} from '../../../../const';
 import {getTime} from '../../../../utils/date-util';
 
 function Details({director, starring, runTime, genre, released}) {
+  const time = getTime(runTime, DateFormat.TIME);
+  const starringList = starring.join(', ');
+
   return (
     <div className="film-card__text film-card__row">
       <div className="film-card__text-col">
@@ -17,7 +20,7 @@ function Details({director, starring, runTime, genre, released}) {
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Starring</strong>
           <span className="film-card__details-value">
-            {starring.join(', ')}
+            {starringList}
           </span>
         </p>
       </div>
@@ -25,7 +28,7 @@ function Details({director, starring, runTime, genre, released}) {
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
           <span className="film-card__details-value">
-            {getTime(runTime, DateFormat.TIME)}
+            {time}
           </span>
         </p>
         <p className="film-card__details-item">

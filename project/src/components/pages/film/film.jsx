@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {FilmInfo} from '../../../const';
 import {filterById} from '../../../utils/film-util';
 import {fetchFilm, fetchSimilarFilms} from '../../../store/api-actions/api-film-actions/api-film-actions';
 import {fetchFilmReviews} from '../../../store/api-actions/api-review-actions/api-review-actions';
@@ -21,7 +22,8 @@ function Film() {
   const film = useSelector(getFilm);
   const similarFilms = useSelector(getSimilarFilms);
 
-  const filteredSimilarFilms = filterById(similarFilms.data, +id);
+  const filteredSimilarFilms = filterById(similarFilms.data, +id)
+    .slice(0, FilmInfo.MAX_FILM_COUNT);
 
   useEffect(() => {
     dispatch(fetchFilm(id));

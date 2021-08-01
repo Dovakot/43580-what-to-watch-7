@@ -8,12 +8,21 @@ import ReviewsCol from './reviews-col/reviews-col';
 
 function Reviews() {
   const {filmReviews} = useSelector(getReviews);
-  const {left, right} = getReviewColCount(filmReviews.length);
+
+  const reviewCount = filmReviews.length;
+  const {left, right} = getReviewColCount(reviewCount);
+  const reviewsColLeft = filmReviews.slice(0, left);
+  const reviewsColRight = (right && filmReviews.slice(right)) || [];
 
   return (
     <div className="film-card__reviews film-card__row">
-      <ReviewsCol reviews={filmReviews.slice(0, left)} />
-      <ReviewsCol reviews={(right && filmReviews.slice(right)) || []} />
+      {reviewCount ?
+        <>
+          <ReviewsCol reviews={reviewsColLeft} />
+          <ReviewsCol reviews={reviewsColRight} />
+        </>
+        : <small>Reviews not found</small>}
+
     </div>
   );
 }

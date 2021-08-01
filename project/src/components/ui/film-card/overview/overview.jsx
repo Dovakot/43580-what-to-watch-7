@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import {getActors, getRatingTitle} from '../../../../utils/film-util';
 
 function Overview({rating, scoresCount, description, director, starring}) {
+  const ratingTitle = getRatingTitle(rating);
+  const starringList = getActors(starring);
+
   return (
     <>
       <div className="film-rating">
@@ -12,7 +15,7 @@ function Overview({rating, scoresCount, description, director, starring}) {
         </div>
         <p className="film-rating__meta">
           <span className="film-rating__level">
-            {getRatingTitle(rating)}
+            {ratingTitle}
           </span>
           <span className="film-rating__count">
             {scoresCount} ratings
@@ -31,7 +34,7 @@ function Overview({rating, scoresCount, description, director, starring}) {
 
         <p className="film-card__starring">
           <strong>
-            Starring: {getActors(starring)}
+            Starring: {starringList}
           </strong>
         </p>
       </div>

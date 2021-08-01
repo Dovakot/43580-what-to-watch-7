@@ -1,4 +1,4 @@
-import React, {Children, cloneElement, useState} from 'react';
+import React, {Children, cloneElement, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 
 import TabLink from './tab-link/tab-link';
@@ -8,6 +8,8 @@ function Tabs({filmId, children}) {
 
   const [defaultTab] = tabItems;
   const [activeTab, setActiveTab] = useState(defaultTab);
+
+  useEffect(() => () => setActiveTab(defaultTab), [defaultTab]);
 
   const onActiveTabChange = (currentTab) => currentTab !== activeTab
     && setActiveTab(currentTab);
