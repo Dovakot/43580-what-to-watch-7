@@ -4,8 +4,8 @@ import {AuthorizationStatus} from '../../../const';
 import {adaptToClientUser} from '../../../services/adapters';
 import {
   requireAuthorization,
-  authorizationProcess,
-  authorizationError,
+  setAuthorizationProcess,
+  setAuthorizationError,
   logout
 } from '../../actions/user-actions/user-actions';
 
@@ -22,10 +22,10 @@ const userData = createReducer(initialState, (builder) => {
       state.user = adaptToClientUser(payload.user);
       state.authorizationStatus = payload.status;
     })
-    .addCase(authorizationProcess, (state, {payload}) => {
+    .addCase(setAuthorizationProcess, (state, {payload}) => {
       state.isAuthorizationProcess = payload;
     })
-    .addCase(authorizationError, (state, {payload}) => {
+    .addCase(setAuthorizationError, (state, {payload}) => {
       state.isAuthorizationError = payload;
     })
     .addCase(logout, (state) => {

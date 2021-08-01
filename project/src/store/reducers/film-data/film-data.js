@@ -16,30 +16,26 @@ import {
   resetFavoritePageData
 } from '../../actions/film-actions/film-actions';
 
+const FILM_DATA_DEFAULT = {
+  data: {},
+  isLoading: true,
+  isError: false,
+};
+
+const FILMS_DATA_DEFAULT = {
+  data: [],
+  isLoading: true,
+  isError: false,
+};
+
 const initialState = {
   activeGenre: GenreInfo.DEFAULT,
   filmsCounter: FilmInfo.MAX_FILMS_PER_STEP,
-  isFavoriteFilm: false,
-  film: {
-    data: {},
-    isLoading: true,
-    isError: false,
-  },
-  films: {
-    data: [],
-    isLoading: true,
-    isError: false,
-  },
-  similarFilms: {
-    data: [],
-    isLoading: true,
-    isError: false,
-  },
-  favoritesFilms: {
-    data: [],
-    isLoading: true,
-    isError: false,
-  },
+  isFavoriteFilm: null,
+  film: FILM_DATA_DEFAULT,
+  films: FILMS_DATA_DEFAULT,
+  similarFilms: FILMS_DATA_DEFAULT,
+  favoritesFilms: FILMS_DATA_DEFAULT,
 };
 
 const filmData = createReducer(initialState, (builder) => {
@@ -77,20 +73,24 @@ const filmData = createReducer(initialState, (builder) => {
       state.filmsCounter = state.filmsCounter + FilmInfo.MAX_FILMS_PER_STEP;
     })
     .addCase(resetFilmData, (state) => {
-      state.film = initialState.film;
+      state.film = FILM_DATA_DEFAULT;
     })
     .addCase(resetMainPageData, (state) => {
-      state.film = initialState.film;
-      state.films = initialState.films;
+      state.film = FILM_DATA_DEFAULT;
+      state.films = FILMS_DATA_DEFAULT;
+
       state.activeGenre = GenreInfo.DEFAULT;
       state.filmsCounter = FilmInfo.MAX_FILMS_PER_STEP;
+      state.isFavoriteFilm = initialState.isFavoriteFilm;
     })
     .addCase(resetFilmPageData, (state) => {
-      state.film = initialState.films;
-      state.similarFilms = initialState.similarFilms;
+      state.film = FILM_DATA_DEFAULT;
+      state.similarFilms = FILMS_DATA_DEFAULT;
+
+      state.isFavoriteFilm = initialState.isFavoriteFilm;
     })
     .addCase(resetFavoritePageData, (state) => {
-      state.favoritesFilms = initialState.favoritesFilms;
+      state.favoritesFilms = FILMS_DATA_DEFAULT;
     });
 });
 

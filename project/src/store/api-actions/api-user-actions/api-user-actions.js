@@ -1,10 +1,11 @@
 import {toast} from 'react-toastify';
 
-import {ApiRoute, AuthorizationStatus, MessageText} from '../../../const';
+import {ApiRoute, AppRoute, AuthorizationStatus, MessageText} from '../../../const';
+import {redirect} from '../../actions/actions';
 import {
   requireAuthorization,
-  authorizationProcess,
-  authorizationError,
+  setAuthorizationProcess,
+  setAuthorizationError,
   logout
 } from '../../actions/user-actions/user-actions';
 
@@ -19,9 +20,10 @@ const login = (user) => (dispatch, _getState, api) => (
     .then(({data}) => {
       localStorage.setItem('token', data.token);
       dispatch(requireAuthorization(AuthorizationStatus.AUTH, data));
+      dispatch(redirect(AppRoute.ROOT));
     })
-    .catch(() => dispatch(authorizationError(true)))
-    .finally(() => dispatch(authorizationProcess(false)))
+    .catch(() => dispatch(setAuthorizationError(true)))
+    .finally(() => dispatch(setAuthorizationProcess(false)))
 );
 
 const logoutAccount = () => (dispatch, _getState, api) => (
@@ -31,7 +33,7 @@ const logoutAccount = () => (dispatch, _getState, api) => (
       dispatch(logout());
     })
     .catch(() => toast.error(MessageText.FAILED_SIGNOUT))
-    .finally(() => dispatch(authorizationProcess(false)))
+    .finally(() => dispatch(setAuthorizationProcess(false)))
 );
 
 export {

@@ -15,7 +15,9 @@ const reviewData = createReducer(initialState, (builder) => {
       state.isError = payload.isError;
     })
     .addCase(resetReviewData, (state) => {
-      state = initialState;
+      state.filmReviews = initialState.filmReviews;
+      state.isLoading = initialState.isLoading;
+      state.isError = initialState.isError;
     });
 });
 

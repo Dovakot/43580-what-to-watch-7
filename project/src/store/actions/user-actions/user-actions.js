@@ -10,11 +10,11 @@ const requireAuthorization = createAction(
   }),
 );
 
-const authorizationProcess = createAction(ActionType.AUTHORIZATION_PROCESS, (isLoading) => ({
+const setAuthorizationProcess = createAction(ActionType.SET_AUTHORIZATION_PROCESS, (isLoading) => ({
   payload: isLoading,
 }));
 
-const authorizationError = createAction(ActionType.AUTHORIZATION_ERROR, (isError) => ({
+const setAuthorizationError = createAction(ActionType.SET_AUTHORIZATION_ERROR, (isError) => ({
   payload: isError,
 }));
 
@@ -22,7 +22,7 @@ const logout = createAction(ActionType.LOGOUT);
 
 export {
   requireAuthorization,
-  authorizationProcess,
-  authorizationError,
+  setAuthorizationProcess,
+  setAuthorizationError,
   logout
 };
