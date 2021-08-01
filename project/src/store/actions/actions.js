@@ -15,17 +15,29 @@ const ActionType = {
   RESET_REVIEW_DATA: 'rewiew/resetReviewData',
   LOAD_FILM_REVIEWS: 'rewiew/loadFilmReviews',
   REQUIRED_AUTHORIZATION: 'user/requiredAuthorization',
-  AUTHORIZATION_ERROR: 'user/authorizationError',
-  AUTHORIZATION_PROCESS: 'user/authorizationProcess',
+  SET_AUTHORIZATION_ERROR: 'user/setAuthorizationError',
+  SET_AUTHORIZATION_PROCESS: 'user/setAuthorizationProcess',
   LOGOUT: 'user/logout',
-  REDIRECT_TO_ROUTE: 'redirect',
+  UPDATE_FILM_PROGRESS: 'player/updateFilmProgress',
+  UPDATE_FILM_PLAYING: 'player/updateFilmPlaying',
+  RESET_PLAYER_DATA: 'player/resetPlayerData',
+  REDIRECT_TO_ROUTE: 'app/redirect',
 };
 
 const redirect = createAction(ActionType.REDIRECT_TO_ROUTE, (url) => ({
   payload: url,
 }));
 
+const loadData = (data, isError) => ({
+  payload: {
+    data,
+    isLoading: isError,
+    isError,
+  },
+});
+
 export {
   ActionType,
-  redirect
+  redirect,
+  loadData
 };

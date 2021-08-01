@@ -1,3 +1,5 @@
+const EMAIL_FORMAT = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i;
+
 const AppRoute = {
   ROOT: '/',
   LOGIN: '/login',
@@ -20,7 +22,8 @@ const ApiRoute = {
 const DateFormat = {
   DATE: 'MMMM DD, YYYY',
   TIME: 'H[h] mm[m]',
-  TIME_FULL: 'H:mm:ss',
+  TIME_SHORT: '-mm:ss',
+  TIME_FULL: '-HH:mm:ss',
   MACHINE_DATE: 'YYYY-MM-DD',
 };
 
@@ -36,6 +39,7 @@ const GenreInfo = {
 
 const FilmInfo = {
   MAX_ACTOR_COUNT: 4,
+  MAX_FILM_COUNT: 4,
   MAX_FILMS_PER_STEP: 8,
   PLAY_DELAY_TIME: 1000,
   RATINGS: [
@@ -85,7 +89,42 @@ const MessageText = {
   LOADING_ERROR: 'Loading error please reload the page',
 };
 
+const IconInfo = {
+  ADD: {
+    href: '#add',
+    width: 19,
+    height: 20,
+  },
+  IN_LIST: {
+    href: '#in-list',
+    width: 18,
+    height: 14,
+  },
+  PLAY: {
+    href: '#play-s',
+    width: 19,
+    height: 19,
+  },
+  PAUSE: {
+    href: '#pause',
+    width: 14,
+    height: 21,
+  },
+  FULL_SCREEN: {
+    href: '#full-screen',
+    width: 27,
+    height: 27,
+  },
+};
+
+const PlayerInfo = {
+  TIME_TO_END: '-00:00',
+  PROGRESS_DEFAULT: 100,
+};
+
 export {
+  EMAIL_FORMAT,
+  PlayerInfo,
   AppRoute,
   ApiRoute,
   DateFormat,
@@ -94,5 +133,6 @@ export {
   FilmInfo,
   ReviewInfo,
   AuthorizationStatus,
-  MessageText
+  MessageText,
+  IconInfo
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import {useHistory, generatePath} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import './exit-button.css';
 import {AppRoute} from '../../../../const';
 
 function ExitButton({id}) {

@@ -1,14 +1,24 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-function FullScreenButton() {
+import {IconInfo} from '../../../../const';
+import SvgIcon from '../../svg-icon/svg-icon';
+
+function FullScreenButton({onFullScreenButtonClick}) {
   return (
-    <button type="button" className="player__full-screen">
-      <svg viewBox="0 0 27 27" width={27} height={27}>
-        <use xlinkHref="#full-screen" />
-      </svg>
+    <button
+      type="button"
+      className="player__full-screen"
+      onClick={onFullScreenButtonClick}
+    >
+      <SvgIcon icon={IconInfo.FULL_SCREEN} />
       <span>Full screen</span>
     </button>
   );
 }
+
+FullScreenButton.propTypes = {
+  onFullScreenButtonClick: PropTypes.func.isRequired,
+};
 
 export default FullScreenButton;
