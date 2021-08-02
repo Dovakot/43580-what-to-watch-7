@@ -1,30 +1,30 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import {useSelector} from 'react-redux';
 
-import reviewProp from '../../../../props/review-prop';
 import {getReviewColCount} from '../../../../utils/film-util';
+import {getReviews} from '../../../../store/reducers/review-data/selectors';
 
 import ReviewsCol from './reviews-col/reviews-col';
 
-function Reviews({filmReviews}) {
-  const {left, right} = getReviewColCount(filmReviews.length);
+function Reviews() {
+  const {filmReviews} = useSelector(getReviews);
+
+  const reviewCount = filmReviews.length;
+  const {left, right} = getReviewColCount(reviewCount);
+  const reviewsColLeft = filmReviews.slice(0, left);
+  const reviewsColRight = (right && filmReviews.slice(right)) || [];
 
   return (
     <div className="film-card__reviews film-card__row">
-      <ReviewsCol reviews={filmReviews.slice(0, left)} />
-      <ReviewsCol reviews={(right && filmReviews.slice(right)) || []} />
+      {reviewCount ?
+        <>
+          <ReviewsCol reviews={reviewsColLeft} />
+          <ReviewsCol reviews={reviewsColRight} />
+        </>
+        : <small>Reviews not found</small>}
+
     </div>
   );
 }
 
-const mapStateToProps = ({filmReviews}) => ({
-  filmReviews,
-});
-
-Reviews.propTypes = {
-  filmReviews: PropTypes.arrayOf(reviewProp).isRequired,
-};
-
-export {Reviews};
-export default connect(mapStateToProps)(Reviews);
+export default Reviews;

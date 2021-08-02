@@ -1,0 +1,8 @@
+.player__play:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.player__play:disabled:hover {
+  transform: scale(1);
+}

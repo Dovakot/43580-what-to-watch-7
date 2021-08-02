@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {useHistory, generatePath} from 'react-router-dom';
 
@@ -11,6 +11,8 @@ function SmallFilmCard({id, name, previewImage, videoLink}) {
   const history = useHistory();
   const pathToFilm = generatePath(AppRoute.FILM, {id});
   const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => () => setIsActive(false), []);
 
   const onMouseEnter = () => setIsActive(true);
   const onMouseLeave = () => setIsActive(false);

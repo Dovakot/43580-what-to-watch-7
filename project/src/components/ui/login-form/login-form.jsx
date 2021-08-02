@@ -1,14 +1,13 @@
-import React, {Children, cloneElement, useState} from 'react';
+import React, {Children, cloneElement, useState, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 
-import {AuthorizationStatus} from '../../../const';
-import {login} from '../../../store/api-actions';
-import {ActionCreator} from '../../../store/actions';
+import {EMAIL_FORMAT} from '../../../const';
+import {setAuthorizationError, setAuthorizationProcess} from '../../../store/actions/user-actions/user-actions';
+import {login} from '../../../store/api-actions/api-user-actions/api-user-actions';
+import {getUser} from '../../../store/reducers/user-data/selectors';
 
 import ErrorMessage from './error-message/error-message';
-
-const EMAIL_FORMAT = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i;
 
 const VALIDATION_RULES = {
   'user-email': {
@@ -25,12 +24,22 @@ const VALIDATION_RULES = {
 
 const VALIDATION_FIELDS = Object.keys(VALIDATION_RULES);
 
-function LoginForm({children, isAuthorisationError, submitForm, setIsAuthorisationError}) {
+const FORM_VALUE_DEFAULT = {
+  email: '',
+  password: '',
+};
+
+function LoginForm({children}) {
+  const dispatch = useDispatch();
+  const {isAuthorizationError} = useSelector(getUser);
+
   const [validationRules, setValidationRules] = useState(VALIDATION_RULES);
-  const [formValue, setFormValue] = useState({
-    email: '',
-    password: '',
-  });
+  const [formValue, setFormValue] = useState(FORM_VALUE_DEFAULT);
+
+  useEffect(() => () => {
+    setValidationRules(VALIDATION_RULES);
+    setFormValue(FORM_VALUE_DEFAULT);
+  }, []);
 
   const errorText = Object.values(validationRules).filter(({isValid}) => !isValid);
 
@@ -68,8 +77,8 @@ function LoginForm({children, isAuthorisationError, submitForm, setIsAuthorisati
   const onFieldBlur = ({target}) => !target.value && validateField(target, true);
 
   const onFormChange = ({target}) => {
-    if (isAuthorisationError) {
-      setIsAuthorisationError(false);
+    if (isAuthorizationError) {
+      dispatch(setAuthorizationError(false));
     }
 
     validateField(target);
@@ -83,7 +92,10 @@ function LoginForm({children, isAuthorisationError, submitForm, setIsAuthorisati
   const onFormSubmit = (evt) => {
     evt.preventDefault();
 
-    return validateForm(evt) && submitForm(formValue);
+    if (validateForm(evt)) {
+      dispatch(setAuthorizationProcess(true));
+      dispatch(login(formValue));
+    }
   };
 
   const getField = (child) => cloneElement(child, {validationRules, onFieldBlur});
@@ -95,7 +107,7 @@ function LoginForm({children, isAuthorisationError, submitForm, setIsAuthorisati
       onChange={onFormChange}
       onSubmit={onFormSubmit}
     >
-      {isAuthorisationError && <ErrorMessage />}
+      {isAuthorizationError && <ErrorMessage />}
       {errorText.length > 0 && <ErrorMessage messages={errorText} />}
 
       <div className="sign-in__fields">
@@ -111,26 +123,8 @@ function LoginForm({children, isAuthorisationError, submitForm, setIsAuthorisati
   );
 }
 
-const mapStateToProps = ({isAuthorisationError}) => ({
-  isAuthorisationError,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  submitForm(data) {
-    dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.PROCESS));
-    dispatch(login(data));
-  },
-  setIsAuthorisationError(isError) {
-    dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH, isError));
-  },
-});
-
 LoginForm.propTypes = {
   children: PropTypes.arrayOf(PropTypes.element).isRequired,
-  isAuthorisationError: PropTypes.bool.isRequired,
-  submitForm: PropTypes.func.isRequired,
-  setIsAuthorisationError: PropTypes.func.isRequired,
 };
 
-export {LoginForm};
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default LoginForm;

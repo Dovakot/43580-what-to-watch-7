@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 
 import {AppRoute} from '../../../const';
-import {isCheckAuth, isAuthorizationProgress} from '../../../utils/utils';
+import {isCheckAuth} from '../../../utils/utils';
+import {getUser} from '../../../store/reducers/user-data/selectors';
 
 import Logo from '../../ui/logo/logo';
 import PageFooter from '../../ui/page-footer/page-footer';
@@ -13,23 +13,21 @@ import LoginForm from '../../ui/login-form/login-form';
 import FormField from '../../ui/login-form/form-field/form-field';
 import Spinner from '../../ui/loading/spinner/spinner';
 
-function SignIn({authorizationStatus}) {
+function SignIn() {
+  const {authorizationStatus, isAuthorizationProcess} = useSelector(getUser);
+
   if (isCheckAuth(authorizationStatus)) {
-    return (
-      <Redirect to={AppRoute.ROOT} />
-    );
+    return <Redirect to={AppRoute.ROOT} />;
   }
 
   return (
     <div className="user-page">
-      {isAuthorizationProgress(authorizationStatus) && <Spinner />}
+      {isAuthorizationProcess && <Spinner />}
 
       <header className="page-header user-page__head">
         <Logo />
 
-        <PageTitle
-          title="Sign in"
-        />
+        <PageTitle title="Sign in" />
       </header>
 
       <div className="sign-in user-page__content">
@@ -58,13 +56,4 @@ function SignIn({authorizationStatus}) {
   );
 }
 
-const mapStateToProps = ({authorizationStatus}) => ({
-  authorizationStatus,
-});
-
-SignIn.propTypes = {
-  authorizationStatus: PropTypes.string.isRequired,
-};
-
-export {SignIn};
-export default connect(mapStateToProps)(SignIn);
+export default SignIn;

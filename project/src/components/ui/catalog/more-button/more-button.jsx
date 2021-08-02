@@ -1,10 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
-import {ActionCreator} from '../../../../store/actions';
+import {incrementFilms} from '../../../../store/actions/film-actions/film-actions';
 
-function MoreButton({onButtonClick}) {
+function MoreButton() {
+  const dispatch = useDispatch();
+
+  const onButtonClick = (evt) => {
+    evt.preventDefault();
+
+    dispatch(incrementFilms());
+  };
+
   return (
     <div className="catalog__more">
       <button
@@ -18,15 +25,4 @@ function MoreButton({onButtonClick}) {
   );
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  onButtonClick() {
-    dispatch(ActionCreator.showFilms());
-  },
-});
-
-MoreButton.propTypes = {
-  onButtonClick: PropTypes.func.isRequired,
-};
-
-export {MoreButton};
-export default connect(null, mapDispatchToProps)(MoreButton);
+export default MoreButton;

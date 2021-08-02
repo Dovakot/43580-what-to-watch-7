@@ -1,33 +1,40 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import SvgIcon from './svg-icon/svg-icon';
+import './in-list-button.css';
 
-const IconInfo = {
-  ADD: {
-    href: '#add',
-    width: 19,
-    height: 20,
-  },
-  IN_LIST: {
-    href: '#in-list',
-    width: 18,
-    height: 14,
-  },
-};
+import {IconInfo} from '../../../../../const';
+import {sendFilmStatus} from '../../../../../store/api-actions/api-film-actions/api-film-actions';
+import {getIsFavoriteFilm} from '../../../../../store/reducers/film-data/selectors';
 
-function InListButton({isFavorite}) {
-  const [isList, setFilmStatus] = useState(isFavorite);
+import SvgIcon from '../../../svg-icon/svg-icon';
 
-  const onButtonClick = () => setFilmStatus(!isList);
+function InListButton({id}) {
+  const dispatch = useDispatch();
+  const isFavorite = useSelector(getIsFavoriteFilm);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => () => setIsLoading(false), []);
+
+  const iconType = isFavorite ? IconInfo.IN_LIST : IconInfo.ADD;
+
+  const onButtonClick = (evt) => {
+    evt.preventDefault();
+
+    setIsLoading(true);
+    dispatch(sendFilmStatus(id, !isFavorite))
+      .finally(() => setIsLoading(false));
+  };
 
   return (
     <button
       className="btn btn--list film-card__button"
       type="button"
+      disabled={isLoading}
       onClick={onButtonClick}
     >
-      <SvgIcon icon={isList ? IconInfo.IN_LIST : IconInfo.ADD} />
+      <SvgIcon icon={iconType} />
 
       <span>My list</span>
     </button>
@@ -35,7 +42,7 @@ function InListButton({isFavorite}) {
 }
 
 InListButton.propTypes = {
-  isFavorite: PropTypes.bool,
+  id: PropTypes.number.isRequired,
 };
 
 export default InListButton;

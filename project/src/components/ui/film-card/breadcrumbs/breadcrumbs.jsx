@@ -1,11 +1,12 @@
 import React from 'react';
 import {Link, generatePath} from 'react-router-dom';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {AppRoute} from '../../../../const';
+import {getFilm} from '../../../../store/reducers/film-data/selectors';
 
-function Breadcrumbs({id, name}) {
+function Breadcrumbs() {
+  const {id, name} = useSelector(getFilm).data;
   const linkBack = generatePath(AppRoute.FILM, {id});
 
   return (
@@ -24,15 +25,4 @@ function Breadcrumbs({id, name}) {
   );
 }
 
-const mapStateToProps = ({film}) => ({
-  id: film.id,
-  name: film.name,
-});
-
-Breadcrumbs.propTypes = {
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-};
-
-export {Breadcrumbs};
-export default connect(mapStateToProps)(Breadcrumbs);
+export default Breadcrumbs;

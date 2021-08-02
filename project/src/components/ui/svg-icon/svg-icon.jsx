@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {setViewBox} from '../../../../../../utils/film-util';
+import {setViewBox} from '../../../utils/film-util';
 
 function SvgIcon({
   icon: {href, width, height},
 }) {
+  const viewBox = setViewBox(width, height);
+
   return (
     <svg
-      viewBox={setViewBox(width, height)}
+      viewBox={viewBox}
       width={width}
       height={height}
     >

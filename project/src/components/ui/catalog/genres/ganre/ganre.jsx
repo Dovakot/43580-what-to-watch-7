@@ -1,28 +1,23 @@
-import React, {useEffect} from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+import {useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 
-import {AppRoute, GenreInfo} from '../../../../../const';
-import {ActionCreator} from '../../../../../store/actions';
-import filmProp from '../../../../../props/film-prop';
+import {AppRoute} from '../../../../../const';
+import {changeGenre} from '../../../../../store/actions/film-actions/film-actions';
 
-function Genre({genre, films, isActive, onActiveGenreChange}) {
+function Genre({genre, isActive}) {
   const itemClass = cn('catalog__genres-item',
     {'catalog__genres-item--active': !isActive},
   );
+  const dispatch = useDispatch();
 
   const onLinkClick = (evt) => {
     evt.preventDefault();
 
-    return isActive && onActiveGenreChange(genre, films);
+    return isActive && dispatch(changeGenre(genre));
   };
-
-  useEffect(
-    () => onActiveGenreChange(GenreInfo.DEFAULT, films),
-    [onActiveGenreChange, films],
-  );
 
   return (
     <li className={itemClass}>
@@ -37,23 +32,9 @@ function Genre({genre, films, isActive, onActiveGenreChange}) {
   );
 }
 
-const mapStateToProps = ({films}) => ({
-  films,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onActiveGenreChange(genre, films) {
-    dispatch(ActionCreator.changeGenre(genre));
-    dispatch(ActionCreator.getFilmsByGenre(films));
-  },
-});
-
 Genre.propTypes = {
   genre: PropTypes.string.isRequired,
-  films: PropTypes.arrayOf(filmProp).isRequired,
   isActive: PropTypes.bool.isRequired,
-  onActiveGenreChange: PropTypes.func.isRequired,
 };
 
-export {Genre};
-export default connect(mapStateToProps, mapDispatchToProps)(Genre);
+export default Genre;

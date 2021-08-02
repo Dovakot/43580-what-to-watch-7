@@ -1,14 +1,17 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 
 import {isCheckAuth} from '../../../../utils/utils';
+import {getUser} from '../../../../store/reducers/user-data/selectors';
 
 import AddReviewButton from '../buttons/add-review-button/add-review-button';
 import InListButton from '../buttons/in-list-button/in-list-button';
 import OpenPlayerButton from '../buttons/open-player-button/open-player-button';
 
-function Description({id, name, genre, released, authorizationStatus, isFavorite}) {
+function Description({id, name, genre, released}) {
+  const {authorizationStatus} = useSelector(getUser);
+
   return (
     <div className="film-card__desc">
       <h2 className="film-card__title">
@@ -28,7 +31,7 @@ function Description({id, name, genre, released, authorizationStatus, isFavorite
 
         {isCheckAuth(authorizationStatus) &&
           <>
-            <InListButton isFavorite />
+            <InListButton id={id} />
             <AddReviewButton id={id} />
           </>}
       </div>
@@ -36,18 +39,11 @@ function Description({id, name, genre, released, authorizationStatus, isFavorite
   );
 }
 
-const mapStateToProps = ({authorizationStatus}) => ({
-  authorizationStatus,
-});
-
 Description.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
   released: PropTypes.number.isRequired,
-  authorizationStatus: PropTypes.string.isRequired,
-  isFavorite: PropTypes.bool,
 };
 
-export {Description};
-export default connect(mapStateToProps)(Description);
+export default Description;

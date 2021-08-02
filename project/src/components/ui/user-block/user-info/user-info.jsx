@@ -1,18 +1,18 @@
 import React from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
 
-import {AppRoute, AuthorizationStatus} from '../../../../const';
-import {ActionCreator} from '../../../../store/actions';
-import {logout} from '../../../../store/api-actions';
-import {userProp} from '../../../../props/user-prop';
+import {AppRoute} from '../../../../const';
+import {logoutAccount} from '../../../../store/api-actions/api-user-actions/api-user-actions';
+import {setAuthorizationProcess} from '../../../../store/actions/user-actions/user-actions';
+import {getUser} from '../../../../store/reducers/user-data/selectors';
 
-function UserInfo({
-  user: {avatar, name},
-  logoutAccount,
-}) {
+const AVATAR_DEFAULT = 'img/avatar.jpg';
+
+function UserInfo() {
+  const dispatch = useDispatch();
   const history = useHistory();
+  const {name, avatar} = useSelector(getUser).user;
 
   const onAvatarClick = (evt) => {
     evt.preventDefault();
@@ -23,7 +23,8 @@ function UserInfo({
   const onSignOutClick = (evt) => {
     evt.preventDefault();
 
-    logoutAccount(AuthorizationStatus.PROCESS);
+    dispatch(setAuthorizationProcess(true));
+    dispatch(logoutAccount());
   };
 
   return (
@@ -34,7 +35,7 @@ function UserInfo({
           onClick={onAvatarClick}
         >
           <img
-            src={avatar}
+            src={avatar || AVATAR_DEFAULT}
             alt={name}
             width={63}
             height={63}
@@ -54,21 +55,4 @@ function UserInfo({
   );
 }
 
-const mapStateToProps = ({user}) => ({
-  user,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  logoutAccount(status) {
-    dispatch(ActionCreator.requireAuthorization(status));
-    dispatch(logout());
-  },
-});
-
-UserInfo.propTypes = {
-  user: userProp,
-  logoutAccount: PropTypes.func.isRequired,
-};
-
-export {UserInfo};
-export default connect(mapStateToProps, mapDispatchToProps)(UserInfo);
+export default UserInfo;

@@ -1,7 +1,4 @@
-const DATA_LOADING = {
-  isLoading: true,
-  isError: false,
-};
+const EMAIL_FORMAT = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i;
 
 const AppRoute = {
   ROOT: '/',
@@ -15,7 +12,8 @@ const AppRoute = {
 
 const ApiRoute = {
   FILMS: '/films',
-  FILM_PROMO: '/promo',
+  PROMO_FILM: '/promo',
+  FAVORITE: '/favorite',
   LOGIN: '/login',
   LOGOUT: '/logout',
   REVIEW: '/comments',
@@ -24,7 +22,8 @@ const ApiRoute = {
 const DateFormat = {
   DATE: 'MMMM DD, YYYY',
   TIME: 'H[h] mm[m]',
-  TIME_FULL: 'H:mm:ss',
+  TIME_SHORT: '-mm:ss',
+  TIME_FULL: '-HH:mm:ss',
   MACHINE_DATE: 'YYYY-MM-DD',
 };
 
@@ -40,6 +39,7 @@ const GenreInfo = {
 
 const FilmInfo = {
   MAX_ACTOR_COUNT: 4,
+  MAX_FILM_COUNT: 4,
   MAX_FILMS_PER_STEP: 8,
   PLAY_DELAY_TIME: 1000,
   RATINGS: [
@@ -78,19 +78,53 @@ const AuthorizationStatus = {
   AUTH: 'AUTH',
   NO_AUTH: 'NO_AUTH',
   UNKNOWN: 'UNKNOWN',
-  PROCESS: 'PROCESS',
 };
 
 const MessageText = {
   REVIEW_POSTED: 'Film review posted',
   REQUEST_FAILED: 'An error has occurred while processing your request',
   AUTH_ERROR: 'Connection authorization failure occurred',
+  AUTH_DATA_ERROR: 'We can’t recognize this email\nand password combination. Please try again.',
   FAILED_SIGNOUT: 'Failed to sign out of account',
   LOADING_ERROR: 'Loading error please reload the page',
 };
 
+const IconInfo = {
+  ADD: {
+    href: '#add',
+    width: 19,
+    height: 20,
+  },
+  IN_LIST: {
+    href: '#in-list',
+    width: 18,
+    height: 14,
+  },
+  PLAY: {
+    href: '#play-s',
+    width: 19,
+    height: 19,
+  },
+  PAUSE: {
+    href: '#pause',
+    width: 14,
+    height: 21,
+  },
+  FULL_SCREEN: {
+    href: '#full-screen',
+    width: 27,
+    height: 27,
+  },
+};
+
+const PlayerInfo = {
+  TIME_TO_END: '-00:00',
+  PROGRESS_DEFAULT: 100,
+};
+
 export {
-  DATA_LOADING,
+  EMAIL_FORMAT,
+  PlayerInfo,
   AppRoute,
   ApiRoute,
   DateFormat,
@@ -99,5 +133,6 @@ export {
   FilmInfo,
   ReviewInfo,
   AuthorizationStatus,
-  MessageText
+  MessageText,
+  IconInfo
 };

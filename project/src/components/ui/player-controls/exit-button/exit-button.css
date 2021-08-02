@@ -1,0 +1,7 @@
+.player__exit {
+  z-index: 110;
+}
+
+.player__exit:hover {
+  transform: scale(1.1);
+}

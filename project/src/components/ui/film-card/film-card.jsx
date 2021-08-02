@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {PosterModifier} from '../../../const';
-import filmProp from '../../../props/film-prop';
+import {getFilm} from '../../../store/reducers/film-data/selectors';
+import {getReviews} from '../../../store/reducers/review-data/selectors';
 
 import PageHeader from '../page-header/page-header';
 import Preview from '../film-card/preview/preview';
@@ -16,8 +16,9 @@ import Tabs from '../film-card/tabs/tabs';
 import TabItem from '../film-card/tabs/tab-item/tab-item';
 import TextLoading from '../loading/text-loading/text-loading';
 
-function FilmCard({
-  film: {
+function FilmCard() {
+  const reviews = useSelector(getReviews);
+  const {
     id,
     name,
     posterImage,
@@ -31,10 +32,8 @@ function FilmCard({
     director,
     starring,
     runTime,
-    isFavorite,
-  },
-  payload,
-}) {
+  } = useSelector(getFilm).data;
+
   return (
     <section className="film-card film-card--full">
       <div className="film-card__hero">
@@ -52,8 +51,6 @@ function FilmCard({
             name={name}
             genre={genre}
             released={released}
-            isReview
-            isFavorite
           />
         </div>
       </div>
@@ -88,8 +85,8 @@ function FilmCard({
             </TabItem>
 
             <TabItem label="Reviews">
-              {payload.isLoading
-                ? <TextLoading {...payload} />
+              {reviews.isLoading
+                ? <TextLoading {...reviews} />
                 : <Reviews />}
             </TabItem>
           </Tabs>
@@ -99,17 +96,4 @@ function FilmCard({
   );
 }
 
-const mapStateToProps = ({film}) => ({
-  film,
-});
-
-FilmCard.propTypes = {
-  film: filmProp.isRequired,
-  payload: PropTypes.shape({
-    isError: PropTypes.bool.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-  }).isRequired,
-};
-
-export {FilmCard};
-export default connect(mapStateToProps)(FilmCard);
+export default FilmCard;
